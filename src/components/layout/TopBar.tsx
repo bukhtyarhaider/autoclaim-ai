@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Coins, Bell, Search, User } from 'lucide-react';
+import { Coins, Bell, User } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const TopBar: React.FC = () => {
@@ -35,7 +35,7 @@ const TopBar: React.FC = () => {
              {/* Credits */}
              <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
                 <Coins className="w-3.5 h-3.5 text-amber-600" />
-                <span className="text-sm font-bold text-amber-700">{user.credits} <span className="font-normal text-amber-600 text-xs">credits</span></span>
+                <span className="text-sm font-medium text-amber-700">{user.credits} <span className="font-normal text-amber-600 text-xs">credits</span></span>
              </div>
 
              {/* Notifications */}
@@ -60,9 +60,6 @@ const TopBar: React.FC = () => {
 
                 {showUserMenu && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-surface-100 py-1 z-50 animate-in fade-in zoom-in-95 duration-200">
-                    <div className="px-4 py-2 border-b border-surface-100">
-                      <p className="text-xs font-semibold text-surface-500 uppercase">Account</p>
-                    </div>
                     <button 
                       onClick={() => navigate('/profile')}
                       className="w-full text-left px-4 py-2 text-sm text-surface-600 hover:bg-surface-50 transition-colors"
@@ -73,7 +70,7 @@ const TopBar: React.FC = () => {
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                     >
-                      Sign Out
+                      Log out
                     </button>
                   </div>
                 )}
