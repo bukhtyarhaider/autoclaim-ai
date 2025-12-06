@@ -213,7 +213,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 no-print">
         <button 
           onClick={onReset}
-          className="flex items-center text-slate-500 hover:text-slate-800 transition-colors"
+          className="flex items-center text-surface-500 hover:text-surface-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Upload
@@ -221,7 +221,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         <div className="flex space-x-3">
           <button 
             onClick={handlePrint}
-            className="flex items-center justify-center px-4 py-2 border border-slate-300 shadow-sm text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="flex items-center justify-center px-4 py-2 border border-surface-300 shadow-sm text-sm font-medium rounded-md text-surface-700 bg-white hover:bg-surface-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
           >
             <Printer className="w-4 h-4 mr-2" />
             Print Report
@@ -229,7 +229,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
           <button 
             onClick={handleDownloadPDF}
             disabled={isGeneratingPdf}
-            className={`flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isGeneratingPdf ? 'opacity-75 cursor-not-allowed' : ''}`}
+            className={`flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 ${isGeneratingPdf ? 'opacity-75 cursor-not-allowed' : ''}`}
           >
             {isGeneratingPdf ? (
               <>
@@ -251,9 +251,9 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         
         {/* Left Column: Visuals */}
         <div className="lg:col-span-7 space-y-6 print-break-inside">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-1">
+          <div className="bg-white rounded-xl shadow-sm border border-surface-200 p-1">
             <div className="p-4 border-b border-slate-100">
-              <h2 className="text-lg font-semibold text-slate-800">Damage Localization</h2>
+              <h2 className="text-lg font-semibold text-surface-800">Damage Localization</h2>
             </div>
             {/* Added ref to wrapper for HTML2Canvas capture */}
             <div className="p-4" ref={visualizerRef}>
@@ -262,18 +262,18 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
           </div>
 
           {/* AI Summary Card */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+          <div className="bg-white rounded-xl shadow-sm border border-surface-200 p-6">
             <div className="flex items-center gap-2 mb-4">
-               <div className="p-2 bg-indigo-100 rounded-lg">
-                 <FileText className="w-5 h-5 text-indigo-600" />
+               <div className="p-2 bg-brand-100 rounded-lg">
+                 <FileText className="w-5 h-5 text-brand-600" />
                </div>
-               <h3 className="text-lg font-semibold text-slate-800">AI Assessment Summary</h3>
+               <h3 className="text-lg font-semibold text-surface-800">AI Assessment Summary</h3>
             </div>
-            <p className="text-slate-600 leading-relaxed text-sm">
+            <p className="text-surface-600 leading-relaxed text-sm">
               {result.summary}
             </p>
             <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-sm">
-              <span className="text-slate-500">AI Confidence Score:</span>
+              <span className="text-surface-500">AI Confidence Score:</span>
               <div className="flex items-center gap-2">
                  <div className="w-32 h-2 bg-slate-100 rounded-full overflow-hidden">
                    <div 
@@ -291,27 +291,27 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         <div className="lg:col-span-5 space-y-6">
           
           {/* Cost Overview Card */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="bg-slate-50 p-6 border-b border-slate-200">
-              <span className="text-slate-500 text-sm font-medium uppercase tracking-wider">Total Estimated Repair Cost</span>
+          <div className="bg-white rounded-xl shadow-sm border border-surface-200 overflow-hidden">
+            <div className="bg-surface-50 p-6 border-b border-surface-200">
+              <span className="text-surface-500 text-sm font-medium uppercase tracking-wider">Total Estimated Repair Cost</span>
               <div className="flex items-baseline mt-1 gap-2">
-                <span className="text-4xl font-bold text-slate-900">
+                <span className="text-4xl font-bold text-surface-900">
                   {formatCurrency(result.totalEstimatedCost, currency)}
                 </span>
-                <span className="text-sm text-slate-500">{currency}</span>
+                <span className="text-sm text-surface-500">{currency}</span>
               </div>
             </div>
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
-                 <h3 className="font-semibold text-slate-800">Identified Damages ({result.damages.length})</h3>
-                 <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded border border-slate-200">{result.vehicleType}</span>
+                 <h3 className="font-semibold text-surface-800">Identified Damages ({result.damages.length})</h3>
+                 <span className="text-xs bg-slate-100 text-surface-600 px-2 py-1 rounded border border-surface-200">{result.vehicleType}</span>
               </div>
               <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                 {result.damages.map((damage) => (
-                  <div key={damage.id} className="flex justify-between items-start p-3 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors border border-transparent hover:border-slate-200">
+                  <div key={damage.id} className="flex justify-between items-start p-3 rounded-lg bg-surface-50 hover:bg-slate-100 transition-colors border border-transparent hover:border-surface-200">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-slate-900 text-sm">{damage.type}</span>
+                        <span className="font-medium text-surface-900 text-sm">{damage.type}</span>
                         <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded border ${
                           damage.severity === Severity.LOW ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
                           damage.severity === Severity.MEDIUM ? 'bg-orange-50 text-orange-700 border-orange-200' :
@@ -320,9 +320,9 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
                           {damage.severity}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500 mt-1 line-clamp-1">{damage.description}</p>
+                      <p className="text-xs text-surface-500 mt-1 line-clamp-1">{damage.description}</p>
                     </div>
-                    <span className="font-semibold text-slate-700 text-sm">{formatCurrency(damage.estimatedCost, currency)}</span>
+                    <span className="font-semibold text-surface-700 text-sm">{formatCurrency(damage.estimatedCost, currency)}</span>
                   </div>
                 ))}
               </div>
@@ -330,8 +330,8 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
           </div>
 
           {/* Charts */}
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 print-break-inside">
-             <h3 className="text-sm font-semibold text-slate-900 mb-4 uppercase tracking-wide">Cost Distribution ({currency})</h3>
+          <div className="bg-white rounded-xl shadow-sm border border-surface-200 p-6 print-break-inside">
+             <h3 className="text-sm font-semibold text-surface-900 mb-4 uppercase tracking-wide">Cost Distribution ({currency})</h3>
              <div className="h-64 w-full">
                <ResponsiveContainer width="100%" height="100%">
                  <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
@@ -352,8 +352,8 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
              </div>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 print-break-inside">
-            <h3 className="text-sm font-semibold text-slate-900 mb-4 uppercase tracking-wide">Damage Severity Breakdown</h3>
+          <div className="bg-white rounded-xl shadow-sm border border-surface-200 p-6 print-break-inside">
+            <h3 className="text-sm font-semibold text-surface-900 mb-4 uppercase tracking-wide">Damage Severity Breakdown</h3>
             <div className="h-48 w-full flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -377,7 +377,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
                   {Object.entries(COLORS).map(([severity, color]) => (
                      <div key={severity} className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: color }}></div>
-                        <span className="text-slate-600 capitalize">{severity.toLowerCase()}</span>
+                        <span className="text-surface-600 capitalize">{severity.toLowerCase()}</span>
                      </div>
                   ))}
               </div>
@@ -388,7 +388,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
       </div>
       
       {/* Footer for Print */}
-      <div className="hidden print:block mt-8 pt-8 border-t border-slate-200 text-center text-slate-400 text-sm">
+      <div className="hidden print:block mt-8 pt-8 border-t border-surface-200 text-center text-slate-400 text-sm">
         <p>Generated by AutoClaim AI on {new Date(result.timestamp).toLocaleDateString()}</p>
         <p>This report is an AI-generated estimate in {currency} and requires final validation by a certified adjuster.</p>
       </div>

@@ -68,7 +68,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
     <div className="w-full max-w-2xl mx-auto">
       <div 
         className={`relative flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-xl transition-all duration-200 ease-in-out cursor-pointer
-          ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-slate-300 bg-white hover:bg-slate-50 hover:border-slate-400'}
+          ${dragActive ? 'border-blue-500 bg-brand-50' : 'border-slate-300 bg-white hover:bg-slate-50 hover:border-slate-400'}
           ${isLoading ? 'opacity-50 pointer-events-none' : ''}
         `}
         onDragEnter={handleDrag}
@@ -87,7 +87,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
         />
         
         <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
-          <div className="mb-4 p-3 rounded-full bg-blue-100 text-blue-600">
+          <div className="mb-4 p-3 rounded-full bg-brand-100 text-brand-600">
             <UploadCloud className="w-8 h-8" />
           </div>
           <p className="mb-2 text-lg font-semibold text-slate-700">
