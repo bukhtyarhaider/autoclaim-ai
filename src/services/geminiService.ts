@@ -36,13 +36,33 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
             },
             description: { type: Type.STRING, description: "Short description of the damage" },
             estimatedCost: { type: Type.NUMBER, description: "Estimated repair cost in PKR (Pakistani Rupee)" },
+            repairCosts: {
+              type: Type.OBJECT,
+              properties: {
+                labor: { type: Type.NUMBER, description: "Labor cost in PKR" },
+                parts: {
+                  type: Type.ARRAY,
+                  items: {
+                    type: Type.OBJECT,
+                    properties: {
+                      type: { type: Type.STRING, enum: ['Genuine', 'Aftermarket', 'Used'] },
+                      price: { type: Type.NUMBER, description: "Price in PKR" },
+                      availability: { type: Type.STRING, description: "Availability status" }
+                    },
+                    required: ["type", "price"]
+                  }
+                },
+                bestOptionTotal: { type: Type.NUMBER, description: "Total best estimated cost" }
+              },
+              required: ["labor", "parts", "bestOptionTotal"]
+            },
             box_2d: {
               type: Type.ARRAY,
               description: "Bounding box coordinates [ymin, xmin, ymax, xmax] on a 0-1000 scale.",
               items: { type: Type.NUMBER }
             }
           },
-          required: ["id", "type", "severity", "description", "estimatedCost", "box_2d"]
+          required: ["id", "type", "severity", "description", "estimatedCost", "repairCosts", "box_2d"]
         }
       },
       totalEstimatedCost: { type: Type.NUMBER, description: "Sum of all estimated costs" },
@@ -54,7 +74,7 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
 
   try {
       const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash',
       contents: {
         parts: [
           {

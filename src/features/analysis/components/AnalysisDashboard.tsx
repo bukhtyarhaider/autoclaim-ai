@@ -150,7 +150,29 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         
         yPos += 5;
         
-        // Render Description
+        // Check if we have detailed repair costs
+        if (damage.repairCosts) {
+           const { labor, parts } = damage.repairCosts;
+           
+           // Labor Line
+           yPos += 5;
+           doc.setFontSize(9);
+           doc.setTextColor(51, 65, 85);
+           doc.text(`Labor: ${formatCurrency(labor)}`, margin + 10, yPos);
+           
+           // Parts Options
+           yPos += 5;
+           doc.text(`Parts Options:`, margin + 10, yPos);
+           parts.forEach((opt) => {
+             yPos += 5;
+             doc.setTextColor(71, 85, 105);
+             if (opt.type === 'Used') doc.text(`- Used/Kabli: ${formatCurrency(opt.price)}`, margin + 15, yPos);
+             else doc.text(`- ${opt.type}: ${formatCurrency(opt.price)}`, margin + 15, yPos);
+           });
+           yPos += 5;
+        }
+
+        // Description
         doc.setFontSize(9);
         doc.setTextColor(100, 116, 139);
         doc.text(splitDesc, margin + 2, yPos);
@@ -321,6 +343,23 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
                         </span>
                       </div>
                       <p className="text-xs text-surface-500 mt-1 line-clamp-1">{damage.description}</p>
+                      {damage.repairCosts && (
+                        <div className="mt-2 text-xs bg-white p-2 rounded border border-surface-200">
+                          <div className="flex justify-between text-surface-600 mb-1">
+                             <span>Labor:</span>
+                             <span>{formatCurrency(damage.repairCosts.labor)}</span>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="font-medium text-surface-700 text-[10px] uppercase">Parts Options:</p>
+                            {damage.repairCosts.parts.map((part, idx) => (
+                              <div key={idx} className="flex justify-between text-surface-500 pl-2">
+                                <span>{part.type === 'Used' ? 'Used/Kabli' : part.type}</span>
+                                <span>{formatCurrency(part.price)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <span className="font-semibold text-surface-700 text-sm">{formatCurrency(damage.estimatedCost)}</span>
                   </div>

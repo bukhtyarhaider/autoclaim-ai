@@ -35,12 +35,25 @@ export interface BoundingBox {
   xmax: number;
 }
 
+export interface PartOption {
+  type: 'Genuine' | 'Aftermarket' | 'Used';
+  price: number;
+  availability?: string; // e.g. "Low stock", "Common"
+}
+
+export interface RepairCosts {
+  labor: number;
+  parts: PartOption[];
+  bestOptionTotal: number; // The logic-selected "best" total (e.g. usually Aftermarket or Kabli)
+}
+
 export interface DamageItem {
   id: string;
   type: DamageType;
   severity: Severity;
   description: string;
-  estimatedCost: number; // Always in USD from API
+  estimatedCost: number; // Keep for backward compatibility/summary, map to bestOptionTotal
+  repairCosts?: RepairCosts; // Optional for backward compatibility
   box_2d: number[]; // [ymin, xmin, ymax, xmax] normalized 0-1000
 }
 
@@ -48,7 +61,7 @@ export interface AssessmentResult {
   id?: string; // For history
   vehicleType: string;
   damages: DamageItem[];
-  totalEstimatedCost: number; // Always in USD from API
+  totalEstimatedCost: number; // Always in PKR from API
   summary: string;
   confidenceScore: number;
   timestamp: string;
