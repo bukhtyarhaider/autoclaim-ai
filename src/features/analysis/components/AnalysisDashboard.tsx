@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { AssessmentResult, Severity, Currency } from '../types';
+import { AssessmentResult, Severity, Currency } from '../../../types';
 import DamageVisualizer from './DamageVisualizer';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 import { Printer, Download, FileText, ArrowLeft, Loader2 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { formatCurrency, convertCost } from '../utils/currencyUtils';
+import { formatCurrency, convertCost } from '../../../utils/currencyUtils';
 
 interface AnalysisDashboardProps {
   result: AssessmentResult;

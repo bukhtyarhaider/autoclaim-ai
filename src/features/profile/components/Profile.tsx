@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { UserProfile, Currency } from '../types';
-import { authService } from '../services/storageService';
+import { UserProfile, Currency } from '../../../types';
+import { authService } from '../../../services/storageService';
 import { User, Building, Mail, CreditCard, Save, Check } from 'lucide-react';
 
 interface ProfileProps {

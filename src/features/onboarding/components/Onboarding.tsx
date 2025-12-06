@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { UserProfile } from '../types';
-import { authService } from '../services/storageService';
+import { UserProfile } from '../../../types';
+import { authService } from '../../../services/storageService';
 import { Sparkles, ScanLine, CreditCard, ChevronRight, Check, X } from 'lucide-react';
 
 interface OnboardingProps {

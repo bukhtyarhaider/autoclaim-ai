@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { reportService } from '../services/storageService';
-import { SavedReport, UserProfile } from '../types';
-import { formatCurrency } from '../utils/currencyUtils';
+import { reportService } from '../../../services/storageService';
+import { SavedReport, UserProfile } from '../../../types';
+import { formatCurrency } from '../../../utils/currencyUtils';
 import { Calendar, Car, AlertTriangle, ArrowRight, FileText, Search } from 'lucide-react';
 
 interface ReportHistoryProps {

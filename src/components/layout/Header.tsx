@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { X, Mail, Lock, User, ArrowRight, LogOut, LayoutDashboard, History, Settings, Coins, ShieldCheck, CarFront } from 'lucide-react';
-import { UserProfile } from '../types';
+import { UserProfile } from '../../types';
 
 interface HeaderProps {
   user: UserProfile | null;

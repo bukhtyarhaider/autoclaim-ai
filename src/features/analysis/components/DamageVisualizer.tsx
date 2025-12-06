@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DamageItem, Severity } from '../types';
+import { DamageItem, Severity } from '../../../types';
 
 interface DamageVisualizerProps {
   imageUrl: string;

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import ImageUploader from './components/ImageUploader';
-import AnalysisDashboard from './components/AnalysisDashboard';
-import AuthModal from './components/AuthModal';
-import Profile from './components/Profile';
-import Onboarding from './components/Onboarding';
-import ReportHistory from './components/ReportHistory';
+import Header from './components/layout/Header';
+import ImageUploader from './features/analysis/components/ImageUploader';
+import AnalysisDashboard from './features/analysis/components/AnalysisDashboard';
+import AuthModal from './features/auth/components/AuthModal';
+import Profile from './features/profile/components/Profile';
+import Onboarding from './features/onboarding/components/Onboarding';
+import ReportHistory from './features/history/components/ReportHistory';
 import { geminiService } from './services/geminiService';
 import { authService, reportService } from './services/storageService';
 import { AssessmentResult, UploadedImage, UserProfile, SavedReport } from './types';
 import { Loader2, AlertOctagon, CheckCircle, Zap, Target, BadgeDollarSign, Coins } from 'lucide-react';
+import { AuthProvider, useAuth } from './context/AuthContext';
 
 type ViewState = 'home' | 'profile' | 'history' | 'dashboard';
 
@@ -303,4 +304,10 @@ function App() {
   );
 }
 
-export default App;
+export default function AppWrapper() {
+  return (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  );
+}
