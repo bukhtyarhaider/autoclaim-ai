@@ -24,6 +24,8 @@ export interface UserProfile {
   phone?: string;
   currency: Currency;
   companyName?: string;
+  credits: number;
+  hasCompletedOnboarding: boolean;
 }
 
 export interface BoundingBox {

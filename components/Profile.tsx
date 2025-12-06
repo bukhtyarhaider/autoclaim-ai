@@ -98,6 +98,22 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
               </div>
               <p className="text-xs text-slate-500 mt-1">Default reporting currency.</p>
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Available Credits</label>
+              <div className="relative">
+                <div className="absolute left-3 top-2.5 h-5 w-5 flex items-center justify-center">
+                  <span className="text-amber-500 font-bold text-lg">©</span>
+                </div>
+                <input
+                  type="text"
+                  value={`${user.credits} Credits`}
+                  disabled
+                  className="w-full pl-10 pr-4 py-2 border border-slate-200 bg-amber-50/50 text-amber-900 font-bold rounded-lg cursor-not-allowed"
+                />
+              </div>
+              <p className="text-xs text-slate-500 mt-1">Contact support to purchase more.</p>
+            </div>
           </div>
         </div>
 

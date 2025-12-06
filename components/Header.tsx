@@ -1,5 +1,6 @@
+
 import React, { useState } from 'react';
-import { ShieldCheck, CarFront, User, LogOut, History, Settings, FileText } from 'lucide-react';
+import { X, Mail, Lock, User, ArrowRight, LogOut, LayoutDashboard, History, Settings, Coins, ShieldCheck, CarFront } from 'lucide-react';
 import { UserProfile } from '../types';
 
 interface HeaderProps {
@@ -44,6 +45,12 @@ const Header: React.FC<HeaderProps> = ({ user, onNavigate, onLogout, onLoginClic
                   className="flex items-center gap-3 focus:outline-none"
                 >
                   <div className="text-right hidden sm:block">
+                    <div className="flex items-center justify-end gap-1.5 mb-0.5">
+                      <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-50 rounded-full border border-amber-100">
+                        <Coins className="w-3 h-3 text-amber-500" />
+                        <span className="text-xs font-bold text-amber-700">{user.credits}</span>
+                      </div>
+                    </div>
                     <p className="text-sm font-semibold text-slate-800">{user.name}</p>
                     <p className="text-xs text-slate-500">{user.companyName || 'Individual'}</p>
                   </div>

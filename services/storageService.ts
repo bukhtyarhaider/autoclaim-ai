@@ -29,6 +29,8 @@ export const authService = {
       email,
       password,
       currency: 'PKR' as Currency, // Default
+      credits: 5,
+      hasCompletedOnboarding: false,
       joinedAt: new Date().toISOString()
     };
 
@@ -59,6 +61,42 @@ export const authService = {
     if (index !== -1) {
       users[index] = { ...users[index], ...updatedProfile };
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+  },
+
+  deductCredit: (userId: string): boolean => {
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const index = users.findIndex((u: any) => u.id === userId);
+    
+    if (index !== -1 && users[index].credits > 0) {
+      users[index].credits -= 1;
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      
+      // Update current session if it matches
+      const currentUser = JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || '{}');
+      if (currentUser.id === userId) {
+        currentUser.credits = users[index].credits;
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
+      }
+      return true;
+    }
+    return false;
+  },
+
+  completeOnboarding: (userId: string): void => {
+    const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+    const index = users.findIndex((u: any) => u.id === userId);
+    
+    if (index !== -1) {
+      users[index].hasCompletedOnboarding = true;
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      
+      // Update current session if it matches
+      const currentUser = JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || '{}');
+      if (currentUser.id === userId) {
+        currentUser.hasCompletedOnboarding = true;
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
+      }
     }
   }
 };
