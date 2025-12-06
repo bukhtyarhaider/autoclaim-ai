@@ -49,8 +49,9 @@ export const usePdfGenerator = () => {
       doc.setFontSize(10);
       doc.setTextColor(71, 85, 105); 
       doc.text(`Date: ${new Date(result.timestamp).toLocaleDateString()}`, margin, yPos);
-      doc.text(`Vehicle Type: ${result.vehicleType}`, margin + 80, yPos);
-      doc.text(`Currency: ${currency}`, margin + 140, yPos);
+      doc.text(`ID: ${result.id}`, margin + 45, yPos);
+      doc.text(`Vehicle: ${result.vehicleType}`, margin + 90, yPos);
+      doc.text(`Currency: ${currency}`, margin + 150, yPos);
       yPos += 15;
 
       // Summary
@@ -185,7 +186,7 @@ export const usePdfGenerator = () => {
       const totalWidth = doc.getTextWidth(totalStr);
       doc.text(totalStr, pageWidth - margin - totalWidth - 5, yPos + 13);
 
-      doc.save(`AutoClaim_Report_${new Date().getTime()}.pdf`);
+      doc.save(`AutoClaim_Report_${result.id}.pdf`);
 
     } catch (error) {
       console.error("PDF Generation Error:", error);

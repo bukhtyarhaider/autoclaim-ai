@@ -105,7 +105,7 @@ export const authService = {
 export const reportService = {
   saveReport: (report: SavedReport): void => {
     const reports = JSON.parse(localStorage.getItem(REPORTS_KEY) || '[]');
-    reports.unshift({ ...report, id: Math.random().toString(36).substr(2, 9) });
+    reports.unshift({ ...report, id: report.id || `RPT-${Math.random().toString(36).substr(2, 9).toUpperCase()}` });
     localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
   },
 

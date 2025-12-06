@@ -104,6 +104,7 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
 
     return {
       ...parsedData,
+      id: `RPT-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
       timestamp: new Date().toISOString()
     };
 

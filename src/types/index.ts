@@ -58,7 +58,7 @@ export interface DamageItem {
 }
 
 export interface AssessmentResult {
-  id?: string; // For history
+  id: string; // Report ID
   vehicleType: string;
   damages: DamageItem[];
   totalEstimatedCost: number; // Always in PKR from API
