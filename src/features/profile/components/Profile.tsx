@@ -81,23 +81,7 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
               </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-2">Preferred Currency</label>
-              <div className="relative">
-                <CreditCard className="absolute left-3 top-2.5 h-5 w-5 text-slate-400" />
-                <select
-                  value={formData.currency}
-                  onChange={e => setFormData({...formData, currency: e.target.value as Currency})}
-                  className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none appearance-none bg-white"
-                >
-                  <option value="PKR">PKR (Pakistani Rupee)</option>
-                  <option value="USD">USD (US Dollar)</option>
-                  <option value="EUR">EUR (Euro)</option>
-                  <option value="GBP">GBP (British Pound)</option>
-                </select>
-              </div>
-              <p className="text-xs text-slate-500 mt-1">Default reporting currency.</p>
-            </div>
+
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Available Credits</label>

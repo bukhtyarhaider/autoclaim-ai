@@ -1,5 +1,6 @@
 import { GoogleGenAI, Type, Schema } from "@google/genai";
 import { AssessmentResult, DamageType, Severity } from "../types";
+import { ANALYSIS_PROMPT } from "./prompts";
 
 const processImage = async (base64Image: string): Promise<AssessmentResult> => {
   const apiKey = process.env.API_KEY;
@@ -34,7 +35,7 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
               enum: ['Low', 'Medium', 'High', 'Critical']
             },
             description: { type: Type.STRING, description: "Short description of the damage" },
-            estimatedCost: { type: Type.NUMBER, description: "Estimated repair cost in USD based on specific vehicle model parts and labor" },
+            estimatedCost: { type: Type.NUMBER, description: "Estimated repair cost in PKR (Pakistani Rupee)" },
             box_2d: {
               type: Type.ARRAY,
               description: "Bounding box coordinates [ymin, xmin, ymax, xmax] on a 0-1000 scale.",
@@ -52,8 +53,8 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
   };
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      const response = await ai.models.generateContent({
+      model: 'gemini-1.5-flash',
       contents: {
         parts: [
           {
@@ -63,38 +64,7 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
             }
           },
           {
-            text: `Act as a Senior Automotive Insurance Adjuster and Appraiser.
-
-            Analyze the provided image to create a highly accurate damage assessment report.
-
-            **STEP 1: VEHICLE IDENTIFICATION (CRITICAL)**
-            * Identify the **Make, Model, and Generation** of the vehicle (e.g., "Honda Civic 10th Gen", "Toyota Fortuner", "Suzuki Alto").
-            * **Assess the Vehicle Class**: Is it Economy, Mid-Range, or Luxury?
-            * **Adjust Pricing accordingly**: 
-              - *Economy (e.g., Suzuki, Toyota, Honda)*: Lower parts/labor costs.
-              - *Luxury (e.g., BMW, Audi, Mercedes)*: Higher parts/labor costs.
-
-            **STEP 2: DAMAGE ANALYSIS & PRICING**
-            * Identify all visible damages.
-            * Estimate repair costs (Parts + Labor + Paint) in **USD**.
-            * **BE REALISTIC. DO NOT OVERESTIMATE.** Use current market rates for parts.
-            
-            **Pricing Reference (USD)**:
-            * **Minor Scratches/Dents (Paint/Buffing)**:
-              - Economy: $100 - $300
-              - Luxury: $300 - $600
-            * **Panel Repair (Denting + Painting)**:
-              - Economy: $200 - $500 per panel
-              - Luxury: $500 - $1,200 per panel
-            * **Component Replacement (Bumper, Headlight, Mirror)**:
-              - Use specific part costs. (e.g., A Corolla bumper is ~$150-$300, a BMW bumper is ~$1000+).
-              - Add painting/fitting labor (~$200-$500).
-
-            **STEP 3: OUTPUT**
-            * Provide the "vehicleType" as the specific Make/Model identified.
-            * Return the data adhering strictly to the JSON schema.
-            * Ensure "totalEstimatedCost" is the accurate sum of individual costs.
-            `
+            text: ANALYSIS_PROMPT
           }
         ]
       },

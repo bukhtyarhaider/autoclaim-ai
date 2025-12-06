@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieCha
 import { Printer, Download, FileText, ArrowLeft, Loader2 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
-import { formatCurrency, convertCost } from '../../../utils/currencyUtils';
+import { formatCurrency } from '../../../utils/currencyUtils';
 
 interface AnalysisDashboardProps {
   result: AssessmentResult;
@@ -146,7 +146,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         // Render Cost
         doc.setFontSize(11);
         doc.setTextColor(22, 163, 74); 
-        doc.text(formatCurrency(damage.estimatedCost, currency), pageWidth - margin - 35, yPos);
+        doc.text(formatCurrency(damage.estimatedCost), pageWidth - margin - 35, yPos);
         
         yPos += 5;
         
@@ -177,7 +177,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
       
       doc.setFontSize(16);
       doc.setTextColor(37, 99, 235);
-      const totalStr = formatCurrency(result.totalEstimatedCost, currency);
+      const totalStr = formatCurrency(result.totalEstimatedCost);
       const totalWidth = doc.getTextWidth(totalStr);
       doc.text(totalStr, pageWidth - margin - totalWidth - 5, yPos + 13);
 
@@ -193,7 +193,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
 
   const chartData = result.damages.map(d => ({
     name: d.type,
-    cost: convertCost(d.estimatedCost, currency),
+    cost: d.estimatedCost,
     severity: d.severity
   }));
 
@@ -296,7 +296,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
               <span className="text-surface-500 text-sm font-medium uppercase tracking-wider">Total Estimated Repair Cost</span>
               <div className="flex items-baseline mt-1 gap-2">
                 <span className="text-4xl font-bold text-surface-900">
-                  {formatCurrency(result.totalEstimatedCost, currency)}
+                  {formatCurrency(result.totalEstimatedCost)}
                 </span>
                 <span className="text-sm text-surface-500">{currency}</span>
               </div>
@@ -322,7 +322,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
                       </div>
                       <p className="text-xs text-surface-500 mt-1 line-clamp-1">{damage.description}</p>
                     </div>
-                    <span className="font-semibold text-surface-700 text-sm">{formatCurrency(damage.estimatedCost, currency)}</span>
+                    <span className="font-semibold text-surface-700 text-sm">{formatCurrency(damage.estimatedCost)}</span>
                   </div>
                 ))}
               </div>

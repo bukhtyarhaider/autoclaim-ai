@@ -94,7 +94,7 @@ const ReportHistory: React.FC<ReportHistoryProps> = ({ user, onViewReport }) => 
                   <div className="flex justify-between text-sm py-1 border-b border-slate-50">
                     <span className="text-slate-500">Total Estimate</span>
                     <span className="font-bold text-emerald-600">
-                      {formatCurrency(report.totalEstimatedCost, user.currency)}
+                      {formatCurrency(report.totalEstimatedCost)}
                     </span>
                   </div>
                 </div>

@@ -15,7 +15,7 @@ export enum Severity {
   CRITICAL = 'Critical'
 }
 
-export type Currency = 'USD' | 'PKR' | 'EUR' | 'GBP';
+export type Currency = 'PKR';
 
 export interface UserProfile {
   id: string;

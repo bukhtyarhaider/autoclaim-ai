@@ -227,7 +227,12 @@ function App() {
         </div>
         
         <div className="bg-white/50 backdrop-blur-sm p-4 rounded-3xl shadow-xl shadow-slate-200/50 border border-white/50">
-          <ImageUploader onImageSelected={handleImageSelected} isLoading={false} />
+          <ImageUploader 
+            onImageSelected={handleImageSelected} 
+            isLoading={false} 
+            isAuthenticated={!!user}
+            onRequireLogin={() => setIsAuthModalOpen(true)}
+          />
         </div>
         
         <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 text-center max-w-5xl mx-auto">

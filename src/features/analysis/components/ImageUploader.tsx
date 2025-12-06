@@ -4,9 +4,11 @@ import { UploadCloud, Image as ImageIcon, X, AlertCircle } from 'lucide-react';
 interface ImageUploaderProps {
   onImageSelected: (file: File, base64: string) => void;
   isLoading: boolean;
+  isAuthenticated: boolean;
+  onRequireLogin: () => void;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoading }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoading, isAuthenticated, onRequireLogin }) => {
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -55,12 +57,22 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
+    
+    if (!isAuthenticated) {
+      onRequireLogin();
+      return;
+    }
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFile(e.dataTransfer.files[0]);
     }
   };
 
   const onButtonClick = () => {
+    if (!isAuthenticated) {
+      onRequireLogin();
+      return;
+    }
     inputRef.current?.click();
   };
 
