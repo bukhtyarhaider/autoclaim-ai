@@ -6,13 +6,13 @@ interface DamageVisualizerProps {
   damages: DamageItem[];
 }
 
-const getSeverityColor = (severity: Severity) => {
+const getSeverityStyles = (severity: Severity) => {
   switch (severity) {
-    case Severity.LOW: return 'border-yellow-400 bg-yellow-400/20';
-    case Severity.MEDIUM: return 'border-orange-500 bg-orange-500/20';
-    case Severity.HIGH: return 'border-red-500 bg-red-500/20';
-    case Severity.CRITICAL: return 'border-red-700 bg-red-700/30';
-    default: return 'border-blue-400 bg-blue-400/20';
+    case Severity.LOW: return { borderColor: '#FACC15', backgroundColor: 'rgba(250, 204, 21, 0.2)' }; // yellow-400
+    case Severity.MEDIUM: return { borderColor: '#F97316', backgroundColor: 'rgba(249, 115, 22, 0.2)' }; // orange-500
+    case Severity.HIGH: return { borderColor: '#EF4444', backgroundColor: 'rgba(239, 68, 68, 0.2)' }; // red-500
+    case Severity.CRITICAL: return { borderColor: '#B91C1C', backgroundColor: 'rgba(185, 28, 28, 0.3)' }; // red-700
+    default: return { borderColor: '#60A5FA', backgroundColor: 'rgba(96, 165, 250, 0.2)' }; // blue-400
   }
 };
 
@@ -20,7 +20,16 @@ const DamageVisualizer: React.FC<DamageVisualizerProps> = ({ imageUrl, damages }
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
-    <div className="relative w-full overflow-hidden rounded-lg shadow-sm border border-slate-200 bg-slate-100 group">
+    <div 
+      className="relative w-full overflow-hidden rounded-lg group"
+      style={{ 
+        borderColor: '#E2E8F0', 
+        backgroundColor: '#F1F5F9', 
+        borderWidth: '1px', 
+        borderStyle: 'solid',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)' 
+      }} 
+    >
       <img 
         src={imageUrl} 
         alt="Analyzed Vehicle" 
@@ -33,31 +42,52 @@ const DamageVisualizer: React.FC<DamageVisualizerProps> = ({ imageUrl, damages }
         const left = (damage.box_2d[1] / 1000) * 100;
         const height = ((damage.box_2d[2] - damage.box_2d[0]) / 1000) * 100;
         const width = ((damage.box_2d[3] - damage.box_2d[1]) / 1000) * 100;
+        
+        const severityStyles = getSeverityStyles(damage.severity);
 
         return (
           <div
             key={damage.id}
-            className={`absolute border-2 transition-all duration-300 cursor-pointer ${getSeverityColor(damage.severity)}
-              ${hoveredId === damage.id ? 'z-10 ring-2 ring-white shadow-lg opacity-100' : 'opacity-70 hover:opacity-100'}
+            className={`absolute transition-all duration-300 cursor-pointer 
+              ${hoveredId === damage.id ? 'z-10 opacity-100' : 'opacity-70 hover:opacity-100'}
             `}
             style={{
               top: `${top}%`,
               left: `${left}%`,
               height: `${height}%`,
               width: `${width}%`,
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              ...severityStyles,
+              // Add white ring effect manually if hovered
+              boxShadow: hoveredId === damage.id ? '0 0 0 2px #ffffff, 0 10px 15px -3px rgba(0, 0, 0, 0.1)' : 'none'
             }}
             onMouseEnter={() => setHoveredId(damage.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
             {/* Tooltip on Hover */}
-            <div className={`
-              absolute -top-10 left-1/2 transform -translate-x-1/2 
-              bg-slate-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none
-              transition-opacity duration-200
-              ${hoveredId === damage.id ? 'opacity-100' : 'opacity-0'}
-            `}>
-              <span className="font-semibold">{damage.type}</span> (${damage.estimatedCost})
-              <div className="absolute top-full left-1/2 -ml-1 border-4 border-transparent border-t-slate-900"></div>
+            <div 
+              className={`
+                absolute -top-10 left-1/2 transform -translate-x-1/2 
+                text-xs px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none
+                transition-opacity duration-200
+                ${hoveredId === damage.id ? 'opacity-100' : 'opacity-0'}
+              `}
+              style={{ 
+                backgroundColor: '#0F172A', // slate-900
+                color: '#FFFFFF' 
+              }} 
+            >
+              <span className="font-semibold">{damage.type}</span> ({damage.estimatedCost})
+              <div 
+                className="absolute top-full left-1/2 -ml-1"
+                style={{ 
+                  borderWidth: '4px',
+                  borderStyle: 'solid',
+                  borderColor: 'transparent',
+                  borderTopColor: '#0F172A' 
+                }}
+              ></div>
             </div>
           </div>
         );
