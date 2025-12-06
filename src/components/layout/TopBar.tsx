@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Coins, Bell, User } from 'lucide-react';
+import { Coins, Bell, User, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const TopBar: React.FC = () => {
+interface TopBarProps {
+  onMenuClick?: () => void;
+}
+
+const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,6 +30,12 @@ const TopBar: React.FC = () => {
   return (
     <>
       <div className="flex items-center gap-4">
+        <button 
+          onClick={onMenuClick}
+          className="p-2 -ml-2 text-surface-500 hover:bg-surface-100 rounded-lg md:hidden"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
         <h2 className="text-xl font-semibold text-surface-800 tracking-tight">{getTitle()}</h2>
       </div>
 
@@ -33,9 +43,9 @@ const TopBar: React.FC = () => {
         {user ? (
           <div className="flex items-center gap-4">
              {/* Credits */}
-             <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
+             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-200">
                 <Coins className="w-3.5 h-3.5 text-amber-600" />
-                <span className="text-sm font-medium text-amber-700">{user.credits} <span className="font-normal text-amber-600 text-xs">credits</span></span>
+                <span className="text-sm font-medium text-amber-700">{user.credits} Credits</span>
              </div>
 
              {/* Notifications */}

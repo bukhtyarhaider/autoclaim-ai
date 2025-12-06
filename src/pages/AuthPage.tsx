@@ -58,15 +58,15 @@ const AuthPage: React.FC = () => {
          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
 
         <div className="relative z-10">
-           <div className="flex items-center gap-2 font-bold text-2xl tracking-tight mb-8">
+                   <div className="flex items-center gap-2 font-bold text-2xl tracking-tight mb-8">
              <ShieldCheck className="w-8 h-8 text-brand-500" />
              <span>AutoClaim<span className="text-brand-500">.ai</span></span>
            </div>
            <h1 className="text-5xl font-bold leading-tight mb-6">
-             Intelligent Damage Assessment for the Modern Era.
+             Smart Damage Assessment
            </h1>
            <p className="text-slate-400 text-lg max-w-md">
-             Join thousands of adjusters and repair shops streamlining their workflow with our AI-powered vehicle analysis platform.
+             Streamline your workflow with AI-powered vehicle analysis and cost estimation.
            </p>
         </div>
 
@@ -77,7 +77,7 @@ const AuthPage: React.FC = () => {
              </div>
              <div>
                <h3 className="font-semibold">Instant Analysis</h3>
-               <p className="text-sm text-slate-400">Get repair estimates in under 30 seconds.</p>
+               <p className="text-sm text-slate-400">Get repair estimates in seconds.</p>
              </div>
           </div>
           <div className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 backdrop-blur-sm">
@@ -85,8 +85,8 @@ const AuthPage: React.FC = () => {
                 <CheckCircle className="w-6 h-6 text-brand-500" />
              </div>
              <div>
-               <h3 className="font-semibold">Professional Reports</h3>
-               <p className="text-sm text-slate-400">Generate PDF reports with your branding.</p>
+               <h3 className="font-semibold">Detailed Reports</h3>
+               <p className="text-sm text-slate-400">Generate professional-grade damage reports.</p>
              </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ const AuthPage: React.FC = () => {
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </h2>
             <p className="text-surface-500 mt-2">
-              {isLogin ? 'Enter your details to access your workspace.' : 'Start your 14-day free trial. No credit card required.'}
+              {isLogin ? 'Welcome back! Please enter your details.' : 'Create an account to get started.'}
             </p>
           </div>
 
@@ -165,7 +165,7 @@ const AuthPage: React.FC = () => {
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                 <>
-                  {isLogin ? 'Sign In to Workspace' : 'Get Started'}
+                  {isLogin ? 'Log in' : 'Get Started'}
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -173,12 +173,12 @@ const AuthPage: React.FC = () => {
           </form>
 
           <p className="text-center text-sm text-surface-500">
-            {isLogin ? "New to AutoClaim? " : "Already have an account? "}
+            {isLogin ? "Don't have an account? " : "Already have an account? "}
             <button 
               onClick={() => { setIsLogin(!isLogin); setError(null); }}
               className="text-brand-600 font-semibold hover:text-brand-700 hover:underline"
             >
-              {isLogin ? 'Create an account' : 'Sign in'}
+              {isLogin ? 'Create an account' : 'Login'}
             </button>
           </p>
         </div>
