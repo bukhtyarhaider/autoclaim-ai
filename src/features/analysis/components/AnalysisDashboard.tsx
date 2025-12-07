@@ -44,7 +44,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
            </div>
            <div>
              <p className="text-xs text-surface-500 font-medium uppercase">Report ID</p>
-             <p className="font-mono font-bold text-surface-900 text-sm truncate" title={result.id}>{result.id.slice(0, 8)}...</p>
+             <p className="font-mono font-bold text-surface-900 text-sm truncate" title={result.id}>{result.id}</p>
            </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
