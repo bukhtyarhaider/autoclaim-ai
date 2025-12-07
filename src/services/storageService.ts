@@ -167,13 +167,14 @@ export const authService = {
 };
 
 export const reportService = {
-  saveReport: async (report: SavedReport): Promise<void> => {
+  saveReport: async (report: SavedReport): Promise<string> => {
     try {
       // Create a new document reference with an auto-generated ID if not provided, 
       // or use setDoc if we want to enforce ID. 
       // The mock used 'unshift', implying list. Here we insert into collection.
       const docData = { ...report, timestamp: new Date().toISOString() };
-      await addDoc(collection(db, REPORTS_COLLECTION), docData);
+      const docRef = await addDoc(collection(db, REPORTS_COLLECTION), docData);
+      return docRef.id;
     } catch (error) {
       console.error("Save report error:", error);
       throw error;
@@ -190,12 +191,31 @@ export const reportService = {
       const querySnapshot = await getDocs(q);
       const reports: SavedReport[] = [];
       querySnapshot.forEach((doc) => {
-        reports.push({ id: doc.id, ...doc.data() } as SavedReport);
+        // Ensure Firestore ID takes precedence over any 'id' field in the data
+        reports.push({ ...doc.data(), id: doc.id } as SavedReport);
       });
       return reports;
     } catch (error) {
       console.error("Get user reports error:", error);
       return [];
+    }
+  },
+
+  getReportById: async (reportId: string): Promise<SavedReport | null> => {
+    try {
+      const docRef = doc(db, REPORTS_COLLECTION, reportId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        // Ensure Firestore ID takes precedence
+        return { ...data, id: docSnap.id } as SavedReport;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error("Get report error:", error);
+      return null;
     }
   }
 };

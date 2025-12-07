@@ -63,21 +63,36 @@ const DashboardPage: React.FC = () => {
         {/* 1. Hero Action Cube (Span 2 cols, 2 rows on large) */}
         <button 
           onClick={() => navigate('/scan')}
-          className="col-span-1 md:col-span-2 row-span-1 md:row-span-2 rounded-2xl bg-black text-white p-8 flex flex-col justify-between group hover:shadow-2xl hover:shadow-zinc-500/20 transition-all duration-300 relative overflow-hidden"
+          className="col-span-1 md:col-span-2 row-span-1 md:row-span-2 rounded-3xl bg-black text-white p-8 flex flex-col justify-between group hover:scale-[1.02] transition-all duration-300 relative overflow-hidden ring-1 ring-zinc-800 shadow-2xl"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-zinc-800/30 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-zinc-700/30 transition-colors"></div>
+          {/* Cubic Grind/Pattern Background */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
+          
+          {/* Half Logo - Bottom Right */}
+          <div className="absolute -bottom-12 -right-12 w-64 h-64 opacity-10 transform rotate-12 group-hover:rotate-0 group-hover:scale-110 transition-all duration-500">
+             <img src="/logo.png" alt="" className="w-full h-full object-contain brightness-100" />
+          </div>
           
           <div className="relative z-10">
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-6 backdrop-blur-md border border-white/10">
-              <Plus className="w-6 h-6 text-white" />
+            <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-6 shadow-lg shadow-white/10 group-hover:rotate-90 transition-transform duration-500">
+              <Plus className="w-8 h-8 text-black" />
             </div>
-            <h2 className="text-3xl font-bold max-w-xs leading-tight">Start New Assessment</h2>
-            <p className="text-zinc-400 mt-2 max-w-xs">Upload images to get instant AI damage analysis.</p>
+            <h2 className="text-4xl font-bold max-w-xs leading-none tracking-tight">
+              Start <br/>
+              <span className="text-zinc-500">Assessment</span>
+            </h2>
+            <p className="text-zinc-400 mt-4 max-w-xs text-lg font-light">
+              AI-powered damage analysis and cost estimation.
+            </p>
           </div>
 
-          <div className="relative z-10 flex items-center gap-2 text-sm font-medium mt-8 group-hover:translate-x-1 transition-transform">
-             <span>Launch Scanner</span>
-             <ArrowRight className="w-4 h-4" />
+          <div className="relative z-10 flex items-center gap-3 mt-8">
+             <span className="px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-sm font-semibold group-hover:bg-white group-hover:text-black transition-colors">
+               Launch Scanner
+             </span>
+             <div className="w-8 h-8 rounded-lg bg-zinc-800 flex items-center justify-center group-hover:translate-x-2 transition-transform">
+               <ArrowRight className="w-4 h-4 text-white" />
+             </div>
           </div>
         </button>
 
@@ -110,7 +125,7 @@ const DashboardPage: React.FC = () => {
                 {filteredReports.map((report) => (
                   <div 
                     key={report.id} 
-                    onClick={() => navigate('/scan', { state: { report } })}
+                    onClick={() => navigate(`/report/${report.id}`)}
                     className="group bg-white border border-zinc-200 rounded-2xl overflow-hidden hover:border-black hover:shadow-xl transition-all cursor-pointer flex flex-col"
                   >
                     {/* Image Area */}

@@ -1,36 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ImageUploader from '../features/analysis/components/ImageUploader';
-import AnalysisDashboard from '../features/analysis/components/AnalysisDashboard';
 import { geminiService } from '../services/geminiService';
 import { authService, reportService } from '../services/storageService';
-import { AssessmentResult, UploadedImage, SavedReport } from '../types';
+import { SavedReport, UploadedImage } from '../types';
 import { Loader2, AlertOctagon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const ScanPage: React.FC = () => {
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation(); // To check if we have pre-loaded state (e.g. from history view)
   
   const [currentImage, setCurrentImage] = useState<UploadedImage | null>(null);
-  const [result, setResult] = useState<AssessmentResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Check if we were passed a report to view
-  useEffect(() => {
-    if (location.state && location.state.report) {
-       const report = location.state.report as SavedReport;
-       setResult(report);
-       setCurrentImage({
-          id: report.id || 'view',
-          file: new File([], 'view'),
-          base64: report.imageUrl,
-          previewUrl: report.imageUrl
-       });
-    }
-  }, [location.state]);
+  // useEffect removed - logic moved to ReportPage
 
   const handleImageSelected = async (file: File, base64: string) => {
     if (user && user.credits <= 0) {
@@ -44,7 +29,7 @@ const ScanPage: React.FC = () => {
       base64,
       previewUrl: base64
     });
-    setResult(null);
+    // setResult(null); // Removed
     setError(null);
     setIsLoading(true);
 
@@ -64,7 +49,7 @@ const ScanPage: React.FC = () => {
 
     try {
       const data = await geminiService.processImage(base64);
-      setResult(data);
+      // setResult(data); // No longer setting local state
       
       if (user) {
         const reportToSave: SavedReport = {
@@ -72,7 +57,8 @@ const ScanPage: React.FC = () => {
           imageUrl: base64,
           userId: user.id
         };
-        await reportService.saveReport(reportToSave);
+        const newReportId = await reportService.saveReport(reportToSave);
+        navigate(`/report/${newReportId}`);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
@@ -83,13 +69,8 @@ const ScanPage: React.FC = () => {
 
   const handleReset = () => {
     setCurrentImage(null);
-    setResult(null);
     setError(null);
-    // If we were viewing a specific report, clearing it implies we want to go back or start new
-    // If the user wants to start new, they are in the right place.
-    // If they were viewing, maybe we should navigate back to dashboard? 
-    // For now, let's just reset state to allow new scan.
-    navigate('/scan', { replace: true, state: {} });
+    // navigate('/scan', { replace: true, state: {} }); // Not needed, we are already here
   };
 
   if (isLoading) {
@@ -125,16 +106,7 @@ const ScanPage: React.FC = () => {
     );
   }
 
-  if (result && currentImage) {
-    return (
-      <AnalysisDashboard 
-        result={result} 
-        imageUrl={currentImage.previewUrl} 
-        currency={user?.currency || 'PKR'}
-        onReset={handleReset}
-      />
-    );
-  }
+
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col justify-center min-h-[calc(100vh-8rem)]">

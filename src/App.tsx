@@ -7,6 +7,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
 import ScanPage from './pages/ScanPage';
+import ReportPage from './pages/ReportPage';
 import ProfilePage from './pages/ProfilePage';
 import { AuthProvider } from './context/AuthContext';
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/" element={<DashboardPage />} />
           <Route path="/dashboard" element={<Navigate to="/" replace />} />
           <Route path="/scan" element={<ScanPage />} />
+          <Route path="/report/:id" element={<ReportPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Route>
