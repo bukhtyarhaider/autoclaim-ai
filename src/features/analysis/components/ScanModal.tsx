@@ -5,9 +5,10 @@ import { geminiService } from '../../../services/geminiService';
 import { authService } from '../../../services/storageService';
 import { useSaveReport } from '../../../hooks/useReports';
 import { SavedReport, UploadedImage } from '../../../types';
-import { Loader2, AlertOctagon } from 'lucide-react';
+import { AlertOctagon } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import Modal from '../../../components/ui/Modal';
+import BrandLoader from '../../../components/common/BrandLoader';
 
 interface ScanModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ const ScanModal: React.FC<ScanModalProps> = ({ isOpen, onClose }) => {
   
   const [currentImage, setCurrentImage] = useState<UploadedImage | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Initializing...");
   const [error, setError] = useState<string | null>(null);
 
   const handleImageSelected = async (file: File, base64: string) => {
@@ -37,6 +39,13 @@ const ScanModal: React.FC<ScanModalProps> = ({ isOpen, onClose }) => {
     });
     setError(null);
     setIsLoading(true);
+
+    // Simulation steps
+    setLoadingText("Encrypting & Uploading...");
+    setTimeout(() => setLoadingText("Analyzing Vehicle Geometry..."), 1500);
+    setTimeout(() => setLoadingText("Detecting Damage Patterns..."), 3500);
+    setTimeout(() => setLoadingText("Calculating Regional Repair Costs..."), 5500);
+    setTimeout(() => setLoadingText("Finalizing Assessment..."), 7500);
 
     // Deduct Credit within flow
     if (user) {
@@ -84,20 +93,7 @@ const ScanModal: React.FC<ScanModalProps> = ({ isOpen, onClose }) => {
   // If loading, show overlay content inside modal
   const renderContent = () => {
     if (isLoading) {
-      return (
-        <div className="flex flex-col items-center justify-center py-12">
-          <div className="relative mb-6">
-            <div className="w-20 h-20 border-4 border-zinc-100 border-t-black rounded-full animate-spin"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Loader2 className="w-8 h-8 text-black animate-pulse" />
-            </div>
-          </div>
-          <h3 className="text-xl font-bold text-zinc-900 mb-2">Analyzing Vehicle...</h3>
-          <p className="text-zinc-500 text-center max-w-sm animate-pulse">
-            Our AI is inspecting damages and calculating costs. Please wait.
-          </p>
-        </div>
-      );
+      return <BrandLoader statusText={loadingText} />;
     }
 
     if (error) {
