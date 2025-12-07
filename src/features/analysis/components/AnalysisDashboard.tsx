@@ -21,10 +21,6 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
   const { isGeneratingPdf, generatePdf } = usePdfGenerator();
   const [showPartsModal, setShowPartsModal] = useState(false);
   
-  const handlePrint = () => {
-    window.print();
-  };
-
   const handleDownloadPDF = () => {
     generatePdf(result, currency, visualizerRef.current);
   };
@@ -33,7 +29,6 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
       <AnalysisHeader 
         onReset={onReset} 
-        onPrint={handlePrint}
         onDownloadPdf={handleDownloadPDF}
         onShowParts={() => setShowPartsModal(true)}
         isGeneratingPdf={isGeneratingPdf}
