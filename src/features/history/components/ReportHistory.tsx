@@ -14,9 +14,12 @@ const ReportHistory: React.FC<ReportHistoryProps> = ({ user, onViewReport }) => 
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const data = reportService.getUserReports(user.id);
-    // Sort by newest
-    setReports(data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+    const fetchReports = async () => {
+      const data = await reportService.getUserReports(user.id);
+      // Sort by newest
+      setReports(data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+    };
+    fetchReports();
   }, [user.id]);
 
   const filteredReports = reports.filter(r => 

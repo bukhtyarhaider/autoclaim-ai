@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, History, User, LogOut, ShieldCheck, UploadCloud } from 'lucide-react';
+import { LayoutDashboard, UploadCloud } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface SidebarProps {
@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onClose }) => {
         {/* Brand */}
         <div className="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <div className="flex items-center gap-2 text-white font-bold text-xl tracking-tight">
-            <ShieldCheck className="w-6 h-6 text-brand-500" />
+          <img src="/logo.png" alt="AutoClaim AI" width={24} height={24} />
             <span>AutoClaim<span className="text-brand-500">.ai</span></span>
           </div>
         </div>

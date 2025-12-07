@@ -22,8 +22,8 @@ const TopBar: React.FC<TopBarProps> = ({ onMenuClick }) => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/auth');
   };
 

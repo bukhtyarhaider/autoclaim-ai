@@ -12,9 +12,9 @@ const Profile: React.FC<ProfileProps> = ({ user, onUpdate }) => {
   const [formData, setFormData] = useState(user);
   const [isSaved, setIsSaved] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    authService.updateProfile(formData);
+    await authService.updateProfile(formData);
     onUpdate(formData);
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 2000);

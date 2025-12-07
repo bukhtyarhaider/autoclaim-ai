@@ -13,10 +13,13 @@ const DashboardPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    if (user) {
-      const data = reportService.getUserReports(user.id);
-      setReports(data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
-    }
+    const fetchReports = async () => {
+      if (user) {
+        const data = await reportService.getUserReports(user.id);
+        setReports(data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+      }
+    };
+    fetchReports();
   }, [user]);
 
   const filteredReports = reports.filter(r => 

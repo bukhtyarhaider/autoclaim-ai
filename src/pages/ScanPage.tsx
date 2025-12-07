@@ -49,9 +49,11 @@ const ScanPage: React.FC = () => {
     setIsLoading(true);
 
     // Deduct Credit
+    // Deduct Credit
     if (user) {
-      const success = authService.deductCredit(user.id);
+      const success = await authService.deductCredit(user.id);
       if (success) {
+        // Optimistic update - though AuthContext handles real updates via snapshot
         updateUser({ ...user, credits: user.credits - 1 });
       } else {
          setError("Insufficient credits.");
@@ -70,7 +72,7 @@ const ScanPage: React.FC = () => {
           imageUrl: base64,
           userId: user.id
         };
-        reportService.saveReport(reportToSave);
+        await reportService.saveReport(reportToSave);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
