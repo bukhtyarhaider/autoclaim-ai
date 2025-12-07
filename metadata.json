@@ -1,5 +1,5 @@
 {
-  "name": "AutoClaim AI",
+  "name": "Carscube AI",
   "description": "An automated AI vehicle damage assessment system for insurance claims. It detects damages, estimates repair costs, and generates detailed reports.",
   "requestFramePermissions": []
 }

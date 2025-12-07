@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({ user, onNavigate, onLogout, onLoginClic
               <CarFront className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-900 tracking-tight">AutoClaim AI</h1>
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">Carscube AI</h1>
               <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Professional Assessment</p>
             </div>
           </div>

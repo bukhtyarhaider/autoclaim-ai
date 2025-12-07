@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onClose }) => {
         <div className="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <div className="flex items-center gap-2 text-white font-bold text-xl tracking-tight">
           <img src="/logo.png" alt="Carscube" className="h-8 w-auto" />
-          <span className="ml-2 text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-brand-400">
+          <span className="ml-2 text-xl font-bold text-white">
             Carscube
           </span>
           </div>

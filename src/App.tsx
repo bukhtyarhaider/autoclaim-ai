@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
-import Sidebar from './components/layout/Sidebar';
+// Sidebar removed
 import TopBar from './components/layout/TopBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthPage from './pages/AuthPage';
@@ -19,7 +19,6 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={
             <AppLayout 
-              sidebar={<Sidebar />} 
               header={<TopBar />}
             >
               <React.Suspense fallback={<div>Loading...</div>}>

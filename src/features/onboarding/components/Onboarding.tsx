@@ -21,29 +21,29 @@ const Onboarding: React.FC<OnboardingProps> = ({ user, onComplete }) => {
       title: "Welcome to Carscube",
       description: "Your intelligent partner for vehicle damage assessment. We combine advanced AI with practical repair insights to streamline your workflow.",
       icon: <Sparkles className="w-8 h-8 text-white" />,
-      bg: "bg-slate-900",
-      accent: "from-blue-600 to-indigo-600"
+      bg: "bg-black",
+      accent: "from-zinc-800 to-zinc-600"
     },
     {
       title: "Smart Parts Detection",
       description: "Get a detailed manifest of every part that needs replacement. Our AI identifies specific components like bumpers, fenders, and headlights automatically.",
       icon: <Wrench className="w-8 h-8 text-white" />,
-      bg: "bg-blue-900",
-      accent: "from-blue-500 to-cyan-400"
+      bg: "bg-zinc-950",
+      accent: "from-zinc-700 to-zinc-500"
     },
     {
       title: "Actionable Reports",
       description: "Generate professional PDF reports that serve as practical checklists. Includes labor breakdowns, part options, and spaces for manual inspection notes.",
       icon: <FileText className="w-8 h-8 text-white" />,
-      bg: "bg-indigo-900",
-      accent: "from-indigo-500 to-purple-500"
+      bg: "bg-zinc-900",
+      accent: "from-zinc-600 to-zinc-400"
     },
     {
       title: "Ready to Start?",
       description: `You have ${user.credits} free credits to try out Carscube features. Upload your first car image and experience the difference.`,
       icon: <Zap className="w-8 h-8 text-white" />,
-      bg: "bg-slate-800",
-      accent: "from-emerald-500 to-teal-400"
+      bg: "bg-zinc-800",
+      accent: "from-zinc-500 to-zinc-300"
     }
   ];
 

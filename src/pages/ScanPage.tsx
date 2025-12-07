@@ -137,17 +137,28 @@ const ScanPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-3xl mx-auto flex flex-col justify-center min-h-[calc(100vh-8rem)]">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-surface-900 mb-4">Start New Assessment</h2>
-        <p className="text-surface-600">Upload a vehicle photo to generate a detailed damage report and cost estimate.</p>
+         <div className="inline-block p-4 mb-6 bg-black text-white rounded-2xl shadow-xl">
+            <svg viewBox="0 0 24 24" fill="none" className="w-12 h-12" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="12" y1="18" x2="12" y2="12" />
+              <line x1="9" y1="15" x2="15" y2="15" />
+            </svg>
+         </div>
+        <h2 className="text-4xl font-bold text-zinc-900 mb-4 tracking-tight">Upload Vehicle Image</h2>
+        <p className="text-zinc-500 text-lg max-w-xl mx-auto">
+          Drop a photo here to instantly analyze damage and estimate repair costs.
+        </p>
       </div>
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-surface-200">
+      
+      <div className="bg-white rounded-3xl shadow-2xl border-2 border-black overflow-hidden transform hover:scale-[1.01] transition-transform duration-300">
          <ImageUploader 
            onImageSelected={handleImageSelected} 
            isLoading={false} 
            isAuthenticated={true}
-           onRequireLogin={() => {}} // Won't happen as route is protected
+           onRequireLogin={() => {}} 
          />
       </div>
     </div>

@@ -78,9 +78,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
 
   return (
     <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full h-full">
       <div 
-        className={`relative flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-xl transition-all duration-200 ease-in-out cursor-pointer
-          ${dragActive ? 'border-blue-500 bg-brand-50' : 'border-slate-300 bg-white hover:bg-slate-50 hover:border-slate-400'}
+        className={`relative flex flex-col items-center justify-center w-full h-96 transition-all duration-200 ease-in-out cursor-pointer group
+          ${dragActive ? 'bg-zinc-100' : 'bg-white hover:bg-zinc-50'}
           ${isLoading ? 'opacity-50 pointer-events-none' : ''}
         `}
         onDragEnter={handleDrag}
@@ -98,16 +99,20 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
           disabled={isLoading}
         />
         
-        <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
-          <div className="mb-4 p-3 rounded-full bg-brand-100 text-brand-600">
-            <UploadCloud className="w-8 h-8" />
+        <div className="flex flex-col items-center justify-center p-8 text-center px-4">
+          <div className="mb-6 p-6 rounded-2xl bg-zinc-50 border border-zinc-200 group-hover:border-black group-hover:scale-110 transition-all duration-300">
+            <UploadCloud className="w-12 h-12 text-black" />
           </div>
-          <p className="mb-2 text-lg font-semibold text-slate-700">
-            <span className="font-bold">Click to upload</span> or drag and drop
+          <p className="mb-2 text-xl font-bold text-zinc-900">
+            Click to upload or drag and drop
           </p>
-          <p className="text-sm text-slate-500 max-w-sm">
-            Upload photos of the damaged vehicle (JPEG, PNG). Our AI will analyze damages and estimate costs.
+          <p className="text-zinc-500 max-w-sm">
+            Upload high-quality photos (JPEG, PNG). Max 10MB.
           </p>
+          
+          <div className="mt-8 px-6 py-2 bg-black text-white text-sm font-semibold rounded-lg opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+            Select Photo
+          </div>
         </div>
       </div>
 
@@ -117,6 +122,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
           <p className="text-sm text-red-700">{error}</p>
         </div>
       )}
+    </div>
     </div>
   );
 };

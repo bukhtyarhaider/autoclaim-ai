@@ -1,60 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, ArrowRight, Loader2, ShieldCheck, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { authService } from '../services/storageService';
 import { useAuth } from '../context/AuthContext';
 
 const AuthPage: React.FC = () => {
   const navigate = useNavigate();
-  // const { login } = useAuth(); // No longer needed
-  const [isLogin, setIsLogin] = useState(true);
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-
-    try {
-      if (isLogin) {
-        const user = await authService.login(formData.email, formData.password);
-        if (user) {
-          navigate('/');
-        } else {
-          setError('Invalid email or password');
-        }
-      } else {
-        const result = await authService.register(formData.name, formData.email, formData.password);
-        if (typeof result === 'string') {
-          setError(result);
-        } else {
-          navigate('/');
-        }
-      }
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred');
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (user) {
+      navigate('/');
     }
-  };
+  }, [user, navigate]);
+
+  // No more email/password form handling
 
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-surface-50">
       {/* Visual Side */}
-      <div className="hidden lg:flex flex-col justify-between p-12 bg-slate-900 text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-600/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
+      <div className="hidden lg:flex flex-col justify-between p-12 bg-black text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
 
         <div className="relative z-10">
                    <div className="flex items-center gap-2 font-bold text-2xl tracking-tight mb-8">
-          <img src="/logo.png" alt="Carscube AI" width={40} height={40} />
+          <img src="/logo.png" alt="Carscube AI" className="w-10 h-10 invert brightness-0" />
           <span>Carscube</span>
            </div>
            <h1 className="text-5xl font-bold leading-tight mb-6">
@@ -66,18 +39,18 @@ const AuthPage: React.FC = () => {
         </div>
 
         <div className="relative z-10 space-y-4">
-          <div className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 backdrop-blur-sm">
-             <div className="p-2 bg-brand-500/10 rounded-lg">
-                <CheckCircle className="w-6 h-6 text-brand-500" />
+          <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
+             <div className="p-2 bg-white/10 rounded-lg">
+                <CheckCircle className="w-6 h-6 text-white" />
              </div>
              <div>
                <h3 className="font-semibold">Instant Analysis</h3>
                <p className="text-sm text-slate-400">Get repair estimates in seconds.</p>
              </div>
           </div>
-          <div className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-xl border border-slate-700 backdrop-blur-sm">
-             <div className="p-2 bg-brand-500/10 rounded-lg">
-                <CheckCircle className="w-6 h-6 text-brand-500" />
+          <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm">
+             <div className="p-2 bg-white/10 rounded-lg">
+                <CheckCircle className="w-6 h-6 text-white" />
              </div>
              <div>
                <h3 className="font-semibold">Detailed Reports</h3>
@@ -92,12 +65,19 @@ const AuthPage: React.FC = () => {
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:text-left">
             <h2 className="text-3xl font-bold text-surface-900">
-              {isLogin ? 'Welcome Back' : 'Create Account'}
+              Welcome to Carscube
             </h2>
             <p className="text-surface-500 mt-2">
-              {isLogin ? 'Welcome back! Please enter your details.' : 'Create an account to get started.'}
+              Sign in to start assessing vehicle damage.
             </p>
           </div>
+          
+            {error && (
+              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 flex items-center">
+                 {error}
+              </div>
+            )}
+
             <button
               type="button"
               disabled={loading}
@@ -116,7 +96,7 @@ const AuthPage: React.FC = () => {
                   setLoading(false);
                 }
               }}
-              className="w-full bg-white text-slate-700 font-semibold py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
+              className="w-full bg-white text-slate-900 font-semibold py-3 rounded-lg border border-slate-200 hover:bg-slate-50 transition-all flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -139,89 +119,6 @@ const AuthPage: React.FC = () => {
               Sign in with Google
             </button>
 
-            <div className="relative flex items-center">
-              <div className="flex-grow border-t border-surface-200"></div>
-              <span className="flex-shrink-0 mx-4 text-surface-400 text-sm">Or continue with</span>
-              <div className="flex-grow border-t border-surface-200"></div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-5">
-            {!isLogin && (
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium text-surface-700">Full Name</label>
-                <div className="relative">
-                  <User className="absolute left-3 top-2.5 h-5 w-5 text-surface-400" />
-                  <input
-                    type="text"
-                    required
-                    className="w-full pl-10 pr-4 py-2.5 bg-white border border-surface-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-surface-400"
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={e => setFormData({...formData, name: e.target.value})}
-                  />
-                </div>
-              </div>
-            )}
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-surface-700">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-2.5 h-5 w-5 text-surface-400" />
-                <input
-                  type="email"
-                  required
-                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-surface-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-surface-400"
-                  placeholder="you@company.com"
-                  value={formData.email}
-                  onChange={e => setFormData({...formData, email: e.target.value})}
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium text-surface-700">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-2.5 h-5 w-5 text-surface-400" />
-                <input
-                  type="password"
-                  required
-                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-surface-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-surface-400"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={e => setFormData({...formData, password: e.target.value})}
-                />
-              </div>
-            </div>
-
-            {error && (
-              <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100 flex items-center">
-                 {error}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-            >
-              {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
-                <>
-                  {isLogin ? 'Log in' : 'Get Started'}
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </form>
-
-          <p className="text-center text-sm text-surface-500">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button 
-              onClick={() => { setIsLogin(!isLogin); setError(null); }}
-              className="text-brand-600 font-semibold hover:text-brand-700 hover:underline"
-            >
-              {isLogin ? 'Create an account' : 'Login'}
-            </button>
-          </p>
         </div>
       </div>
     </div>
