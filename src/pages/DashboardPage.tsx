@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { reportService } from '../services/storageService';
-import { SavedReport } from '../types';
-import { formatCurrency } from '../utils/currencyUtils';
-import { Calendar, Car, ArrowRight, Shield, TrendingUp, Zap, Plus, Search, Cuboid } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useReports } from '../hooks/useReports';
+
+import {
+  Calendar, ArrowRight, Shield, Zap, Plus, Search, Cuboid
+} from 'lucide-react';
+import { formatCurrency } from '../utils/currencyUtils';
 import Onboarding from '../features/onboarding/components/Onboarding';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [reports, setReports] = useState<SavedReport[]>([]);
+  const { data: reports = [], isLoading: isLoadingReports } = useReports(user?.id);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      if (user) {
-        const data = await reportService.getUserReports(user.id);
-        setReports(data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
-      }
-    };
-    fetchReports();
-  }, [user]);
 
-  const filteredReports = reports.filter(r => 
-    r.vehicleType.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredReports = reports.filter(r =>
+    r.vehicleType.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.id?.includes(searchTerm)
   );
 

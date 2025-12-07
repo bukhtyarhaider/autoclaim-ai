@@ -27,7 +27,7 @@ const AuthPage: React.FC = () => {
 
         <div className="relative z-10">
                    <div className="flex items-center gap-2 font-bold text-2xl tracking-tight mb-8">
-          <img src="/logo.png" alt="Carscube AI" className="w-10 h-10 invert brightness-0" />
+          <img src="/logo.png" alt="Carscube AI" className="w-10 h-10 " />
           <span>Carscube</span>
            </div>
            <h1 className="text-5xl font-bold leading-tight mb-6">

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ImageUploader from '../features/analysis/components/ImageUploader';
 import { geminiService } from '../services/geminiService';
-import { authService, reportService } from '../services/storageService';
+import { authService } from '../services/storageService';
+import { useSaveReport } from '../hooks/useReports';
+
 import { SavedReport, UploadedImage } from '../types';
 import { Loader2, AlertOctagon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -10,6 +12,8 @@ import { useAuth } from '../context/AuthContext';
 const ScanPage: React.FC = () => {
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
+  const saveReportMutation = useSaveReport();
+
   
   const [currentImage, setCurrentImage] = useState<UploadedImage | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +23,7 @@ const ScanPage: React.FC = () => {
 
   const handleImageSelected = async (file: File, base64: string) => {
     if (user && user.credits <= 0) {
-      setError("You have 0 credits remaining. Please contact support to top up.");
+      setError("You don't have enough credits for this assessment.");
       return;
     }
 
@@ -57,7 +61,11 @@ const ScanPage: React.FC = () => {
           imageUrl: base64,
           userId: user.id
         };
-        const newReportId = await reportService.saveReport(reportToSave);
+        const newReportId = await saveReportMutation.mutateAsync(reportToSave);
+        
+        // Cache update handled by hook
+
+        
         navigate(`/report/${newReportId}`);
       }
     } catch (err) {
