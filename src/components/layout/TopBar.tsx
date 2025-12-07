@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Coins, Bell, User, Menu } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useUI } from '../../context/UIContext';
 
 interface TopBarProps {}
 
 const TopBar: React.FC<TopBarProps> = () => {
   const { user, logout } = useAuth();
+  const { openScanModal } = useUI();
   const navigate = useNavigate();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -46,7 +48,7 @@ const TopBar: React.FC<TopBarProps> = () => {
             <button onClick={() => navigate('/')} className={getLinkClass('/')}>
               Overview
             </button>
-            <button onClick={() => navigate('/scan')} className={getLinkClass('/scan')}>
+            <button onClick={openScanModal} className="px-4 py-2 text-sm font-medium rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors">
               Scan
             </button>
           </nav>

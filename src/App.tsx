@@ -6,12 +6,14 @@ import TopBar from './components/layout/TopBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
-import ScanPage from './pages/ScanPage';
 import ReportPage from './pages/ReportPage';
+import AssessmentsPage from './pages/AssessmentsPage';
 import ProfilePage from './pages/ProfilePage';
 import { AuthProvider } from './context/AuthContext';
+import { UIProvider } from './context/UIContext';
 
 function App() {
+
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
@@ -32,7 +34,9 @@ function App() {
         >
           <Route path="/" element={<DashboardPage />} />
           <Route path="/dashboard" element={<Navigate to="/" replace />} />
-          <Route path="/scan" element={<ScanPage />} />
+          <Route path="/scan" element={<Navigate to="/" replace />} />
+          <Route path="/assessments" element={<AssessmentsPage />} />
+
           <Route path="/report/:id" element={<ReportPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
@@ -52,8 +56,11 @@ export default function AppWrapper() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <UIProvider>
+          <App />
+        </UIProvider>
       </AuthProvider>
+
     </BrowserRouter>
   );
 }

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useReports } from '../hooks/useReports';
+import { useUI } from '../context/UIContext';
+
 
 import {
   Calendar, ArrowRight, Shield, Zap, Plus, Search, Cuboid
@@ -11,15 +13,22 @@ import Onboarding from '../features/onboarding/components/Onboarding';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
+
   const navigate = useNavigate();
+  const { openScanModal } = useUI();
   const { data: reports = [], isLoading: isLoadingReports } = useReports(user?.id);
   const [searchTerm, setSearchTerm] = useState('');
+
 
 
   const filteredReports = reports.filter(r =>
     r.vehicleType.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.id?.includes(searchTerm)
   );
+
+  const displayedReports = filteredReports.slice(0, 3);
+  const showSeeAll = filteredReports.length > 3;
+
 
   const stats = [
     { label: 'Total Scans', value: reports.length.toString(), icon: Cuboid },
@@ -53,11 +62,11 @@ const DashboardPage: React.FC = () => {
       {/* Main Grid Layout (Bento Grid) */}
       <div className="mt-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         
-        {/* 1. Hero Action Cube (Span 2 cols, 2 rows on large) */}
         <button 
-          onClick={() => navigate('/scan')}
+          onClick={openScanModal}
           className="col-span-1 md:col-span-2 row-span-1 md:row-span-2 rounded-3xl bg-black text-white p-8 flex flex-col justify-between group hover:scale-[1.02] transition-all duration-300 relative overflow-hidden ring-1 ring-zinc-800 shadow-2xl"
         >
+
           {/* Cubic Grind/Pattern Background */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
           
@@ -115,7 +124,7 @@ const DashboardPage: React.FC = () => {
               </div>
            ) : (
              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {filteredReports.map((report) => (
+                {displayedReports.map((report) => (
                   <div 
                     key={report.id} 
                     onClick={() => navigate(`/report/${report.id}`)}
@@ -148,8 +157,23 @@ const DashboardPage: React.FC = () => {
                     </div>
                   </div>
                 ))}
+                
+                {/* See All Card */}
+                {showSeeAll && (
+                  <button
+                    onClick={() => navigate('/assessments')} 
+                    className="group bg-zinc-50 border border-zinc-200 border-dashed rounded-2xl flex flex-col items-center justify-center p-8 hover:bg-zinc-100 hover:border-zinc-300 transition-all text-center"
+                  >
+                     <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-zinc-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <ArrowRight className="w-5 h-5 text-zinc-400 group-hover:text-black transition-colors" />
+                     </div>
+                     <span className="font-bold text-zinc-900">View All Assessments</span>
+                     <span className="text-sm text-zinc-500 mt-1">{filteredReports.length - 3} more reports</span>
+                  </button>
+                )}
              </div>
            )}
+
         </div>
 
       </div>

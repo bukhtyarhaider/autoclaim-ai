@@ -1,4 +1,6 @@
 import React, { ReactNode } from 'react';
+import ScanModal from '../../features/analysis/components/ScanModal';
+import { useUI } from '../../context/UIContext';
 
 interface AppLayoutProps {
   header: ReactNode;
@@ -6,6 +8,8 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<AppLayoutProps> = ({ header, children }) => {
+  const { isScanModalOpen, closeScanModal } = useUI();
+
   return (
     <div className="min-h-screen bg-surface-50 flex flex-col font-sans text-surface-900">
       
@@ -18,6 +22,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({ header, children }) => {
       <main className="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
         {children}
       </main>
+
+      {/* Global Modals */}
+      <ScanModal 
+        isOpen={isScanModalOpen} 
+        onClose={closeScanModal} 
+      />
     </div>
   );
 };
