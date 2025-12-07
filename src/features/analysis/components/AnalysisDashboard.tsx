@@ -5,6 +5,8 @@ import AnalysisVisuals from './AnalysisVisuals';
 import AnalysisCostOverview from './AnalysisCostOverview';
 import AnalysisCharts from './AnalysisCharts';
 import { usePdfGenerator } from '../hooks/usePdfGenerator';
+import { Car, Calendar, Hash, DollarSign } from 'lucide-react';
+import { formatCurrency } from '../../../utils/currencyUtils';
 
 interface AnalysisDashboardProps {
   result: AssessmentResult;
@@ -26,7 +28,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
       <AnalysisHeader 
         onReset={onReset} 
         onPrint={handlePrint}
@@ -34,30 +36,63 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         isGeneratingPdf={isGeneratingPdf}
       />
 
-      {/* Report Info Header */}
-      <div className="flex items-center justify-between mb-6 bg-white p-4 rounded-lg border border-surface-200 shadow-sm print:shadow-none print:border-none">
-        <div>
-          <h1 className="text-xl font-bold text-surface-900">Damage Assessment Report</h1>
-          <p className="text-sm text-surface-500">Vehicle: {result.vehicleType}</p>
+      {/* Snapshot Header Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
+           <div className="p-2 bg-brand-50 rounded-lg text-brand-600">
+             <Hash className="w-5 h-5" />
+           </div>
+           <div>
+             <p className="text-xs text-surface-500 font-medium uppercase">Report ID</p>
+             <p className="font-mono font-bold text-surface-900 text-sm truncate" title={result.id}>{result.id.slice(0, 8)}...</p>
+           </div>
         </div>
-        <div className="text-right">
-             <p className="text-xs text-surface-500 uppercase font-semibold tracking-wider">Report ID</p>
-             <p className="text-lg font-mono font-bold text-brand-600 select-all">{result.id}</p>
+        <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
+           <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+             <Car className="w-5 h-5" />
+           </div>
+           <div>
+             <p className="text-xs text-surface-500 font-medium uppercase">Vehicle</p>
+             <p className="font-bold text-surface-900 text-sm line-clamp-1">{result.vehicleType}</p>
+           </div>
+        </div>
+        <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
+           <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
+             <Calendar className="w-5 h-5" />
+           </div>
+           <div>
+             <p className="text-xs text-surface-500 font-medium uppercase">Date</p>
+             <p className="font-bold text-surface-900 text-sm">{new Date(result.timestamp).toLocaleDateString()}</p>
+           </div>
+        </div>
+        <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
+           <div className="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+             <DollarSign className="w-5 h-5" />
+           </div>
+           <div>
+             <p className="text-xs text-surface-500 font-medium uppercase">Est. Total</p>
+             <p className="font-bold text-surface-900 text-sm">{formatCurrency(result.totalEstimatedCost)}</p>
+           </div>
         </div>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* Left Column: Visuals */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-7 space-y-8">
            <AnalysisVisuals imageUrl={imageUrl} result={result} visualizerRef={visualizerRef} />
+           <div className="hidden lg:block">
+             <AnalysisCharts result={result} currency={currency} />
+           </div>
         </div>
 
         {/* Right Column: Data & Costs */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="lg:col-span-5 space-y-6 sticky top-8">
           <AnalysisCostOverview result={result} currency={currency} />
-          <AnalysisCharts result={result} currency={currency} />
+          <div className="lg:hidden">
+             <AnalysisCharts result={result} currency={currency} />
+          </div>
         </div>
       </div>
       

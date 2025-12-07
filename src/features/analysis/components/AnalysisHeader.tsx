@@ -1,5 +1,5 @@
 import React from 'react';
-import { Printer, Download, ArrowLeft, Loader2 } from 'lucide-react';
+import { Printer, Download, ArrowLeft, Loader2, Share2 } from 'lucide-react';
 
 interface AnalysisHeaderProps {
   onReset: () => void;
@@ -15,36 +15,44 @@ const AnalysisHeader: React.FC<AnalysisHeaderProps> = ({
   isGeneratingPdf
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4 no-print">
+    <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 no-print">
       <button 
         onClick={onReset}
-        className="flex items-center text-surface-500 hover:text-surface-800 transition-colors"
+        className="group flex items-center text-surface-500 hover:text-surface-900 transition-colors px-3 py-2 rounded-lg hover:bg-surface-100/50"
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to Upload
+        <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
+        <span className="font-medium text-sm">Back to Dashboard</span>
       </button>
-      <div className="flex space-x-3">
+
+      <div className="flex items-center gap-2">
         <button 
           onClick={onPrint}
-          className="flex items-center justify-center px-4 py-2 border border-surface-300 shadow-sm text-sm font-medium rounded-md text-surface-700 bg-white hover:bg-surface-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+          className="flex items-center justify-center px-4 py-2 border border-surface-200 shadow-sm text-sm font-medium rounded-lg text-surface-700 bg-white hover:bg-surface-50 hover:border-surface-300 transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-surface-200"
         >
-          <Printer className="w-4 h-4 mr-2" />
-          Print Report
+          <Printer className="w-4 h-4 mr-2 text-surface-500" />
+          Print
         </button>
+        
         <button 
           onClick={onDownloadPdf}
           disabled={isGeneratingPdf}
-          className={`flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 ${isGeneratingPdf ? 'opacity-75 cursor-not-allowed' : ''}`}
+          className={`
+            flex items-center justify-center px-4 py-2 shadow-sm text-sm font-medium rounded-lg text-white transition-all
+            ${isGeneratingPdf 
+              ? 'bg-surface-400 cursor-not-allowed opacity-75' 
+              : 'bg-brand-600 hover:bg-brand-700 active:transform active:scale-95 focus:ring-2 focus:ring-offset-1 focus:ring-brand-500'
+            }
+          `}
         >
           {isGeneratingPdf ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Generating...
+              <span>Generating...</span>
             </>
           ) : (
             <>
               <Download className="w-4 h-4 mr-2" />
-              Export PDF
+              <span>Export PDF</span>
             </>
           )}
         </button>

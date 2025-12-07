@@ -66,29 +66,32 @@ const DamageVisualizer: React.FC<DamageVisualizerProps> = ({ imageUrl, damages }
             onMouseLeave={() => setHoveredId(null)}
           >
             {/* Tooltip on Hover */}
-            <div 
-              className={`
-                absolute -top-10 left-1/2 transform -translate-x-1/2 
-                text-xs px-2 py-1 rounded whitespace-nowrap z-20 pointer-events-none
-                transition-opacity duration-200
-                ${hoveredId === damage.id ? 'opacity-100' : 'opacity-0'}
-              `}
-              style={{ 
-                backgroundColor: '#0F172A', // slate-900
-                color: '#FFFFFF' 
-              }} 
-            >
-              <span className="font-semibold">{damage.type}</span> ({damage.estimatedCost})
-              <div 
-                className="absolute top-full left-1/2 -ml-1"
-                style={{ 
-                  borderWidth: '4px',
-                  borderStyle: 'solid',
-                  borderColor: 'transparent',
-                  borderTopColor: '#0F172A' 
-                }}
-              ></div>
-            </div>
+<div 
+  className={`
+    absolute -top-2 left-1/2 transform -translate-x-1/2 -translate-y-full
+    text-xs px-3 py-2 rounded z-20 pointer-events-none
+    transition-all duration-200 ease-out min-w-70
+    max-w-100 break-words
+    ${hoveredId === damage.id 
+      ? 'opacity-100 scale-100 translate-y-0' 
+      : 'opacity-0 scale-95 translate-y-1'}
+  `}
+  style={{ 
+    backgroundColor: '#0F172A', // slate-900
+    color: '#FFFFFF'
+  }} 
+>
+  <span className="font-semibold block mb-1">
+    {damage.type}
+  </span>
+
+  <div className="text-xs leading-snug">
+    {damage.description}
+  </div>
+
+  
+</div>
+
           </div>
         );
       })}
