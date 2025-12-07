@@ -62,12 +62,12 @@ export const usePdfGenerator = () => {
         doc.setFontSize(24);
         doc.setTextColor(255, 255, 255); 
         doc.setFont("helvetica", "bold");
-        doc.text("Carcubes", margin + 20, 21);
+        doc.text("Carscube", margin + 20, 21);
       } else {
         doc.setFontSize(24);
         doc.setTextColor(255, 255, 255); 
          doc.setFont("helvetica", "bold");
-        doc.text("Carcubes", margin, 21);
+        doc.text("Carscube", margin, 21);
       }
       
       doc.setFont("helvetica", "normal");

@@ -1,8 +1,8 @@
-# Carcubes AI
+# Carscube AI
 
 **AI-Powered Vehicle Damage Assessment**
 
-Carcubes AI is a modern web application that leverages Google's Gemini 2.5 Flash model to provide instant and accurate vehicle damage assessments. Users can upload photos of vehicle damage to receive immediate analysis, including severity classification and estimated repair costs.
+Carscube AI is a modern web application that leverages Google's Gemini 2.5 Flash model to provide instant and accurate vehicle damage assessments. Users can upload photos of vehicle damage to receive immediate analysis, including severity classification and estimated repair costs.
 
 
 ## Features

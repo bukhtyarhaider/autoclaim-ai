@@ -5,6 +5,7 @@ import { SavedReport } from '../types';
 import { formatCurrency } from '../utils/currencyUtils';
 import { Calendar, Car, ArrowRight, FileText, Search, Shield, TrendingUp, Zap, Plus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import Onboarding from '../features/onboarding/components/Onboarding';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -131,6 +132,12 @@ const DashboardPage: React.FC = () => {
         )}
       </div>
 
+
+
+      {/* Mandatory Onboarding */}
+      {user && !user.hasCompletedOnboarding && (
+        <Onboarding user={user} onComplete={() => {}} />
+      )}
     </div>
   );
 };

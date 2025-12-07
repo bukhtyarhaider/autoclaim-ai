@@ -54,8 +54,8 @@ const AuthPage: React.FC = () => {
 
         <div className="relative z-10">
                    <div className="flex items-center gap-2 font-bold text-2xl tracking-tight mb-8">
-          <img src="/logo.png" alt="Carcubes AI" width={40} height={40} />
-          <span>Carcubes</span>
+          <img src="/logo.png" alt="Carscube AI" width={40} height={40} />
+          <span>Carscube</span>
            </div>
            <h1 className="text-5xl font-bold leading-tight mb-6">
              Smart Damage Assessment
