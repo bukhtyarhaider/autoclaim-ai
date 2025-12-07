@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Coins, Bell, User, Menu } from 'lucide-react';
+import { Coins, Bell, User, Menu, X, LogOut, LayoutDashboard, Scan } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useUI } from '../../context/UIContext';
 
@@ -12,6 +12,8 @@ const TopBar: React.FC<TopBarProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
 
   // Helper for active link styles
   const getLinkClass = (path: string) => {
@@ -42,9 +44,10 @@ const TopBar: React.FC<TopBarProps> = () => {
           </span>
         </div>
 
-        {/* Navigation */}
+        {/* Desktop Navigation */}
         {user && (
           <nav className="hidden md:flex items-center gap-1">
+
             <button onClick={() => navigate('/')} className={getLinkClass('/')}>
               Overview
             </button>
@@ -55,9 +58,11 @@ const TopBar: React.FC<TopBarProps> = () => {
         )}
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         {user ? (
-          <div className="flex items-center gap-4">
+          <>
+            <div className="flex items-center gap-4">
+
              {/* Credits */}
              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-zinc-900 rounded-full border border-zinc-800">
                 <Coins className="w-3.5 h-3.5 text-zinc-400" />
@@ -102,6 +107,16 @@ const TopBar: React.FC<TopBarProps> = () => {
                 )}
              </div>
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="md:hidden p-2 text-zinc-400 hover:text-white"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+          >
+            {showMobileMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+          </>
+
         ) : (
           <button 
             onClick={() => navigate('/auth')}
@@ -112,7 +127,48 @@ const TopBar: React.FC<TopBarProps> = () => {
           </button>
         )}
       </div>
+
+
+      {/* Mobile Menu Overlay */}
+      {showMobileMenu && user && (
+        <div className="md:hidden absolute top-16 left-0 w-full bg-black border-b border-zinc-800 p-4 shadow-2xl animate-in slide-in-from-top-2 duration-200 z-50">
+           <div className="flex flex-col gap-2">
+              <button 
+                onClick={() => { navigate('/'); setShowMobileMenu(false); }}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-zinc-900 text-zinc-300 hover:text-white transition-colors text-left"
+              >
+                 <LayoutDashboard className="w-5 h-5" />
+                 <span className="font-medium">Overview</span>
+              </button>
+              <button 
+                onClick={() => { openScanModal(); setShowMobileMenu(false); }}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-zinc-900 text-zinc-300 hover:text-white transition-colors text-left"
+              >
+                 <Scan className="w-5 h-5" />
+                 <span className="font-medium">New Scan</span>
+              </button>
+              <button 
+                onClick={() => { navigate('/profile'); setShowMobileMenu(false); }}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-zinc-900 text-zinc-300 hover:text-white transition-colors text-left"
+              >
+                 <User className="w-5 h-5" />
+                 <span className="font-medium">Profile</span>
+              </button>
+              
+              <div className="h-px bg-zinc-800 my-2"></div>
+              
+              <button 
+                onClick={() => { handleLogout(); setShowMobileMenu(false); }}
+                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-900/20 text-red-500 transition-colors text-left"
+              >
+                 <LogOut className="w-5 h-5" />
+                 <span className="font-medium">Log out</span>
+              </button>
+           </div>
+        </div>
+      )}
     </>
+
   );
 };
 

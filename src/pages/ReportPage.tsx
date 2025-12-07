@@ -4,7 +4,8 @@ import { useReport } from '../hooks/useReports';
 import { SavedReport } from '../types';
 import AnalysisDashboard from '../features/analysis/components/AnalysisDashboard';
 import { useAuth } from '../context/AuthContext';
-import { Loader2, AlertOctagon, ArrowLeft } from 'lucide-react';
+import { AlertOctagon, ArrowLeft } from 'lucide-react';
+import Skeleton from '../components/common/Skeleton';
 
 const ReportPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,9 +17,36 @@ const ReportPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-8 h-8 text-black animate-spin mb-4" />
-        <p className="text-zinc-500">Loading Report...</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+         {/* Title Skeleton */}
+         <div className="flex justify-between items-center mb-8">
+            <div>
+               <Skeleton className="h-8 w-64 mb-2" />
+               <Skeleton className="h-4 w-32" />
+            </div>
+            <div className="flex gap-2">
+               <Skeleton className="h-10 w-32" />
+               <Skeleton className="h-10 w-32" />
+            </div>
+         </div>
+
+         {/* Stats Grid Skeleton */}
+         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            {[1,2,3,4].map(i => (
+               <Skeleton key={i} className="h-24 w-full rounded-xl" />
+            ))}
+         </div>
+
+         {/* Main Content Skeleton */}
+         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-7 space-y-8">
+               <Skeleton className="h-[400px] w-full rounded-2xl" />
+               <Skeleton className="h-[200px] w-full rounded-2xl" />
+            </div>
+            <div className="lg:col-span-5 space-y-6">
+               <Skeleton className="h-[600px] w-full rounded-2xl" />
+            </div>
+         </div>
       </div>
     );
   }

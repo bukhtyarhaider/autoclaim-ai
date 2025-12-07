@@ -7,6 +7,7 @@ import {
   Calendar, Shield, Search, ArrowLeft, Plus, Filter, ArrowRight
 } from 'lucide-react';
 import { formatCurrency } from '../utils/currencyUtils';
+import Skeleton from '../components/common/Skeleton';
 
 const AssessmentsPage: React.FC = () => {
   const { user } = useAuth();
@@ -59,18 +60,47 @@ const AssessmentsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Grid */}
-      {isLoading ? (
-        <div className="py-20 text-center">
-           <div className="w-8 h-8 mx-auto border-2 border-zinc-200 border-t-black rounded-full animate-spin"></div>
-           <p className="text-zinc-500 mt-4">Loading reports...</p>
-        </div>
-      ) : filteredReports.length === 0 ? (
-         <div className="bg-zinc-50 border border-zinc-200 dashed rounded-2xl p-12 text-center">
-            <p className="text-zinc-500">No assessments found matching your criteria.</p>
-         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Grid Container with Min Height to prevent layout shift */}
+      <div className="min-h-[50vh]">
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1,2,3,4,5,6,7,8].map((i) => (
+                <div key={i} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden flex flex-col h-[300px]">
+                  <Skeleton className="h-[200px] w-full" />
+                  <div className="p-5 flex-1 flex flex-col justify-between">
+                      <div className="flex justify-between">
+                        <Skeleton className="h-4 w-32" />
+                      </div>
+                      <div className="flex gap-2">
+                        <Skeleton className="h-3 w-16" />
+                        <Skeleton className="h-3 w-16" />
+                      </div>
+                      <Skeleton className="h-4 w-full mt-4" />
+                  </div>
+                </div>
+            ))}
+          </div>
+        ) : filteredReports.length === 0 ? (
+           <div className="flex flex-col items-center justify-center h-96 bg-zinc-50/50 rounded-3xl border border-zinc-200 border-dashed animate-in fade-in zoom-in-95 duration-300">
+              <div className="w-20 h-20 bg-white rounded-2xl shadow-xl flex items-center justify-center mb-6 transform rotate-3">
+                 <Search className="w-8 h-8 text-zinc-300" />
+              </div>
+              <h3 className="text-xl font-bold text-zinc-900 mb-2">No assessments found</h3>
+              <p className="text-zinc-500 max-w-xs text-center">
+                We couldn't find any reports matching "{searchTerm}". Try adjusting your filters.
+              </p>
+              {searchTerm && (
+                <button 
+                  onClick={() => setSearchTerm('')}
+                  className="mt-6 text-sm font-medium text-black underline underline-offset-4 hover:text-zinc-600 transition-colors"
+                >
+                  Clear Search
+                </button>
+              )}
+           </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-in fade-in duration-500">
+
            {filteredReports.map((report) => (
              <div 
                key={report.id} 
@@ -103,8 +133,9 @@ const AssessmentsPage: React.FC = () => {
                </div>
              </div>
            ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

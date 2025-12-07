@@ -6,10 +6,11 @@ import { useUI } from '../context/UIContext';
 
 
 import {
-  Calendar, ArrowRight, Shield, Zap, Plus, Search, Cuboid
+  Calendar, ArrowRight, Shield, Zap, Plus, Cuboid
 } from 'lucide-react';
 import { formatCurrency } from '../utils/currencyUtils';
 import Onboarding from '../features/onboarding/components/Onboarding';
+import Skeleton from '../components/common/Skeleton';
 
 const DashboardPage: React.FC = () => {
   const { user } = useAuth();
@@ -17,17 +18,13 @@ const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const { openScanModal } = useUI();
   const { data: reports = [], isLoading: isLoadingReports } = useReports(user?.id);
-  const [searchTerm, setSearchTerm] = useState('');
+
+  // Take last 3 reports (assuming API returns chronological, otherwise sort might be needed but for now slice is fine)
+  const displayedReports = reports.slice(0, 3);
+  const showSeeAll = reports.length > 3;
 
 
 
-  const filteredReports = reports.filter(r =>
-    r.vehicleType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    r.id?.includes(searchTerm)
-  );
-
-  const displayedReports = filteredReports.slice(0, 3);
-  const showSeeAll = filteredReports.length > 3;
 
 
   const stats = [
@@ -40,23 +37,14 @@ const DashboardPage: React.FC = () => {
       
       {/* Header section with Greeting and Search */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-2">
+        {/* Header Content */}
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500">
             Overview
           </h1>
           <p className="text-zinc-500 mt-1">Manage your fleet and assessments.</p>
         </div>
-        
-        <div className="relative w-full md:w-auto group">
-           <Search className="absolute left-3 top-3 h-4 w-4 text-zinc-400 group-focus-within:text-zinc-800 transition-colors" />
-           <input 
-             type="text" 
-             placeholder="Search report ID..."
-             value={searchTerm}
-             onChange={(e) => setSearchTerm(e.target.value)}
-             className="pl-10 pr-4 py-2.5 bg-white border border-zinc-200 rounded-xl text-sm w-full md:w-64 outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all shadow-sm"
-           />
-        </div>
+
       </div>
 
       {/* Main Grid Layout (Bento Grid) */}
@@ -106,7 +94,11 @@ const DashboardPage: React.FC = () => {
                <stat.icon className="w-5 h-5 md:w-8 md:h-8 text-zinc-300 group-hover:text-black transition-colors" />
              </div>
              <div className="mt-4">
-               <span className="text-3xl font-bold text-zinc-900">{stat.value}</span>
+               {isLoadingReports ? (
+                 <Skeleton className="h-8 w-16" />
+               ) : (
+                 <span className="text-3xl font-bold text-zinc-900">{stat.value}</span>
+               )}
              </div>
           </div>
         ))}
@@ -118,7 +110,26 @@ const DashboardPage: React.FC = () => {
              Recent Assessments
            </h3>
            
-           {filteredReports.length === 0 ? (
+           {isLoadingReports ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {[1,2,3].map((i) => (
+                   <div key={i} className="bg-white border border-zinc-200 rounded-2xl overflow-hidden flex flex-col h-[300px]">
+                      <Skeleton className="h-[200px] w-full" />
+                      <div className="p-5 flex-1 flex flex-col justify-between">
+                         <div className="flex justify-between">
+                            <Skeleton className="h-4 w-24" />
+                            <Skeleton className="h-4 w-12" />
+                         </div>
+                         <div className="flex gap-2">
+                            <Skeleton className="h-3 w-16" />
+                            <Skeleton className="h-3 w-16" />
+                         </div>
+                         <Skeleton className="h-4 w-full mt-4" />
+                      </div>
+                   </div>
+                ))}
+              </div>
+           ) : reports.length === 0 ? (
               <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-12 text-center border-dashed">
                  <p className="text-zinc-400">No assessments found.</p>
               </div>
@@ -168,7 +179,8 @@ const DashboardPage: React.FC = () => {
                         <ArrowRight className="w-5 h-5 text-zinc-400 group-hover:text-black transition-colors" />
                      </div>
                      <span className="font-bold text-zinc-900">View All Assessments</span>
-                     <span className="text-sm text-zinc-500 mt-1">{filteredReports.length - 3} more reports</span>
+                     <span className="text-sm text-zinc-500 mt-1">{reports.length - 3} more reports</span>
+
                   </button>
                 )}
              </div>
