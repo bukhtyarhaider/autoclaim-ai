@@ -18,7 +18,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ user, onComplete }) => {
 
   const steps = [
     {
-      title: "Welcome to AutoClaim AI",
+      title: "Welcome to Carcubes AI",
       description: "Experience the future of vehicle damage assessment. Our advanced AI analyzes damages instantly with professional accuracy.",
       icon: <Sparkles className="w-12 h-12 text-blue-500" />,
       color: "bg-blue-50"

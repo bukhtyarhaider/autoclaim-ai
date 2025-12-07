@@ -1,10 +1,11 @@
 import React from 'react';
-import { Printer, Download, ArrowLeft, Loader2, Share2 } from 'lucide-react';
+import { Printer, Download, ArrowLeft, Loader2, ClipboardList } from 'lucide-react';
 
 interface AnalysisHeaderProps {
   onReset: () => void;
   onPrint: () => void;
   onDownloadPdf: () => void;
+  onShowParts: () => void;
   isGeneratingPdf: boolean;
 }
 
@@ -12,6 +13,7 @@ const AnalysisHeader: React.FC<AnalysisHeaderProps> = ({
   onReset,
   onPrint,
   onDownloadPdf,
+  onShowParts,
   isGeneratingPdf
 }) => {
   return (
@@ -25,6 +27,14 @@ const AnalysisHeader: React.FC<AnalysisHeaderProps> = ({
       </button>
 
       <div className="flex items-center gap-2">
+        <button 
+          onClick={onShowParts}
+          className="flex items-center justify-center px-4 py-2 border border-surface-200 shadow-sm text-sm font-medium rounded-lg text-surface-700 bg-white hover:bg-surface-50 hover:border-surface-300 transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-surface-200"
+        >
+          <ClipboardList className="w-4 h-4 mr-2 text-surface-500" />
+          Parts List
+        </button>
+
         <button 
           onClick={onPrint}
           className="flex items-center justify-center px-4 py-2 border border-surface-200 shadow-sm text-sm font-medium rounded-lg text-surface-700 bg-white hover:bg-surface-50 hover:border-surface-300 transition-all focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-surface-200"

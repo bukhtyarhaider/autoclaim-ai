@@ -46,8 +46,8 @@ const Sidebar: React.FC<SidebarProps> = ({ mobileOpen = false, onClose }) => {
         {/* Brand */}
         <div className="h-16 flex items-center px-6 border-b border-slate-800 bg-slate-950">
           <div className="flex items-center gap-2 text-white font-bold text-xl tracking-tight">
-          <img src="/logo.png" alt="AutoClaim AI" width={24} height={24} />
-            <span>AutoClaim<span className="text-brand-500">.ai</span></span>
+          <img src="/logo.png" alt="Carcubes" width={24} height={24} />
+            <span>Carcubes</span>
           </div>
         </div>
 

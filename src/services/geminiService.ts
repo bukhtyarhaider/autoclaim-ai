@@ -35,6 +35,7 @@ const processImage = async (base64Image: string): Promise<AssessmentResult> => {
               enum: ['Low', 'Medium', 'High', 'Critical']
             },
             description: { type: Type.STRING, description: "Short description of the damage" },
+            requiredPart: { type: Type.STRING, description: "The specific name of the vehicle part that is damaged (e.g. 'Front Bumper', 'Left Headlight', 'Windshield')." },
             estimatedCost: { type: Type.NUMBER, description: "Estimated repair cost in PKR (Pakistani Rupee)" },
             repairCosts: {
               type: Type.OBJECT,

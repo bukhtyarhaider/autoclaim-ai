@@ -52,6 +52,7 @@ export interface DamageItem {
   type: DamageType;
   severity: Severity;
   description: string;
+  requiredPart?: string; // Specific name of the part needing repair/replacement
   estimatedCost: number; // Keep for backward compatibility/summary, map to bestOptionTotal
   repairCosts?: RepairCosts; // Optional for backward compatibility
   box_2d: number[]; // [ymin, xmin, ymax, xmax] normalized 0-1000
