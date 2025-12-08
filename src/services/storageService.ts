@@ -194,6 +194,19 @@ export const reportService = {
         // Ensure Firestore ID takes precedence over any 'id' field in the data
         reports.push({ ...doc.data(), id: doc.id } as SavedReport);
       });
+      
+      // Sort by timestamp descending (newest first)
+      reports.sort((a, b) => {
+        const dateA = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+        const dateB = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+        
+        // Handle invalid dates (NaN)
+        const valA = isNaN(dateA) ? 0 : dateA;
+        const valB = isNaN(dateB) ? 0 : dateB;
+        
+        return valB - valA;
+      });
+      
       return reports;
     } catch (error) {
       console.error("Get user reports error:", error);

@@ -5,6 +5,7 @@ import { geminiService } from '../../../services/geminiService';
 import { authService } from '../../../services/storageService';
 import { useSaveReport } from '../../../hooks/useReports';
 import { SavedReport, UploadedImage } from '../../../types';
+import { compressImage } from '../../../utils/imageUtils';
 import { AlertOctagon } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
 import Modal from '../../../components/ui/Modal';
@@ -31,42 +32,48 @@ const ScanModal: React.FC<ScanModalProps> = ({ isOpen, onClose }) => {
       return;
     }
 
-    setCurrentImage({
-      id: Math.random().toString(36).substr(2, 9),
-      file,
-      base64,
-      previewUrl: base64
-    });
-    setError(null);
-    setIsLoading(true);
-
-    // Simulation steps
-    setLoadingText("Encrypting & Uploading...");
-    setTimeout(() => setLoadingText("Analyzing Vehicle Geometry..."), 1500);
-    setTimeout(() => setLoadingText("Detecting Damage Patterns..."), 3500);
-    setTimeout(() => setLoadingText("Calculating Regional Repair Costs..."), 5500);
-    setTimeout(() => setLoadingText("Finalizing Assessment..."), 7500);
-
-    // Deduct Credit within flow
-    if (user) {
-      const success = await authService.deductCredit(user.id);
-      if (success) {
-        updateUser({ ...user, credits: user.credits - 1 });
-      } else {
-         setError("Insufficient credits.");
-         setIsLoading(false);
-         setCurrentImage(null);
-         return;
-      }
-    }
-
     try {
-      const data = await geminiService.processImage(base64);
+      setIsLoading(true);
+      setLoadingText("Compressing Image...");
+      
+      // Compress image before doing anything else
+      // This solves the Firestore 1MB limit issue and optimizes API usage
+      const compressedBase64 = await compressImage(file);
+      
+      setCurrentImage({
+        id: Math.random().toString(36).substr(2, 9),
+        file,
+        base64: compressedBase64, // Use compressed version
+        previewUrl: compressedBase64
+      });
+      setError(null);
+
+      // Simulation steps
+      setLoadingText("Encrypting & Uploading...");
+      setTimeout(() => setLoadingText("Analyzing Vehicle Geometry..."), 1500);
+      setTimeout(() => setLoadingText("Detecting Damage Patterns..."), 3500);
+      setTimeout(() => setLoadingText("Calculating Regional Repair Costs..."), 5500);
+      setTimeout(() => setLoadingText("Finalizing Assessment..."), 7500);
+
+      // Deduct Credit within flow
+      if (user) {
+        const success = await authService.deductCredit(user.id);
+        if (success) {
+          updateUser({ ...user, credits: user.credits - 1 });
+        } else {
+           setError("Insufficient credits.");
+           setIsLoading(false);
+           setCurrentImage(null);
+           return;
+        }
+      }
+
+      const data = await geminiService.processImage(compressedBase64);
       
       if (user) {
         const reportToSave: SavedReport = {
           ...data,
-          imageUrl: base64,
+          imageUrl: compressedBase64, // Save the compressed string
           userId: user.id
         };
         const newReportId = await saveReportMutation.mutateAsync(reportToSave);
@@ -77,8 +84,7 @@ const ScanModal: React.FC<ScanModalProps> = ({ isOpen, onClose }) => {
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unexpected error occurred");
-      // Don't reset image so user can try again or see what happened, but actually we might want to reset if it's a critical failure? 
-      // Let's keep loading false so they see the error state
+      console.error("Scanning error:", err);
     } finally {
       setIsLoading(false);
     }

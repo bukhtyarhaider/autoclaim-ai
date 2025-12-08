@@ -51,7 +51,7 @@ const Breadcrumbs: React.FC = () => {
                 </span>
               ) : (
                 <Link to={crumb.to} className="hover:text-surface-900 transition-colors capitalize">
-                  {crumb.label}x
+                  {crumb.label}
                 </Link>
               )}
             </React.Fragment>
