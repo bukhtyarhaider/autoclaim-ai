@@ -47,13 +47,17 @@ const TopBar: React.FC<TopBarProps> = () => {
         {/* Desktop Navigation */}
         {user && (
           <nav className="hidden md:flex items-center gap-1">
+            <button onClick={openScanModal} className="px-4 py-2 text-sm font-medium rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors">
+              <Scan className="w-4 h-4" />
+            </button>
 
             <button onClick={() => navigate('/')} className={getLinkClass('/')}>
               Overview
             </button>
-            <button onClick={openScanModal} className="px-4 py-2 text-sm font-medium rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-900 transition-colors">
-              Scan
+            <button onClick={() => navigate('/assessments')} className={getLinkClass('/assessments')}>
+              Assessments
             </button>
+            
           </nav>
         )}
       </div>
@@ -65,7 +69,7 @@ const TopBar: React.FC<TopBarProps> = () => {
 
              {/* Credits */}
              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-zinc-900 rounded-full border border-zinc-800">
-                <Coins className="w-3.5 h-3.5 text-zinc-400" />
+                <Coins className="w-3.5 h-3.5 text-yellow-500" />
                 <span className="text-sm font-medium text-zinc-300">{user.credits} Credits</span>
              </div>
 

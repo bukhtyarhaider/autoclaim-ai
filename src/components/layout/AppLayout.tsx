@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import ScanModal from '../../features/analysis/components/ScanModal';
 import { useUI } from '../../context/UIContext';
 
+import Breadcrumbs from '../common/Breadcrumbs';
+
 interface AppLayoutProps {
   header: ReactNode;
   children: ReactNode;
@@ -20,6 +22,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ header, children }) => {
 
       {/* Main Content Area */}
       <main className="flex-1 p-4 md:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
+        <Breadcrumbs />
         {children}
       </main>
 

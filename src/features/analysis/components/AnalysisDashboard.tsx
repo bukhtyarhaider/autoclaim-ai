@@ -15,10 +15,9 @@ interface AnalysisDashboardProps {
   result: AssessmentResult;
   imageUrl: string;
   currency: Currency;
-  onReset: () => void;
 }
 
-const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl, currency, onReset }) => {
+const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl, currency }) => {
   const visualizerRef = useRef<HTMLDivElement>(null);
   const { isGeneratingPdf, generatePdf } = usePdfGenerator();
   const [showPartsModal, setShowPartsModal] = useState(false);
@@ -31,7 +30,6 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
   return (
     <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 animate-in fade-in duration-500">
       <AnalysisHeader 
-        onReset={onReset} 
         onDownloadPdf={handleDownloadPDF}
         onShowParts={() => setShowPartsModal(true)}
         isGeneratingPdf={isGeneratingPdf}

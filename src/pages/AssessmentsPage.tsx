@@ -27,13 +27,6 @@ const AssessmentsPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
         <div>
-           <button 
-             onClick={() => navigate('/')}
-             className="flex items-center gap-2 text-zinc-500 hover:text-black mb-4 transition-colors"
-           >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Back to Overview</span>
-           </button>
            <h1 className="text-3xl font-bold text-zinc-900">All Assessments</h1>
            <p className="text-zinc-500 mt-1">View and manage your vehicle reports.</p>
         </div>

@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import ReportPage from './pages/ReportPage';
 import AssessmentsPage from './pages/AssessmentsPage';
 import ProfilePage from './pages/ProfilePage';
+import NotFoundPage from './pages/NotFoundPage';
 import { AuthProvider } from './context/AuthContext';
 import { UIProvider } from './context/UIContext';
 
@@ -37,13 +38,22 @@ function App() {
           <Route path="/scan" element={<Navigate to="/" replace />} />
           <Route path="/assessments" element={<AssessmentsPage />} />
 
+          <Route path="/assessments" element={<AssessmentsPage />} />
+
+          {/* Report Routes */}
+          <Route path="/report" element={<Navigate to="/assessments" replace />} />
           <Route path="/report/:id" element={<ReportPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Route>
 
-      {/* Fallback */}
-      <Route path="*" element={<Navigate to="/" replace />} />
+      {/* Fallback for outside protected routes? None needed if above catches inside. 
+          But if user is logged out and goes to /unknown, we might want to show 404 or redirect. 
+          Actually ProtectedRoute wraps wrapping route, so unauth users go to /auth. 
+          Let's add a public catch-all just in case. 
+      */}
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }

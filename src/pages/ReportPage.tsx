@@ -75,7 +75,6 @@ const ReportPage: React.FC = () => {
       result={report} 
       imageUrl={report.imageUrl} 
       currency={user?.currency || 'PKR'}
-      onReset={() => navigate('/')}
     />
   );
 };

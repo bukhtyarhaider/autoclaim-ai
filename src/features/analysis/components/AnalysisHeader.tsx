@@ -2,27 +2,18 @@ import React from 'react';
 import { Download, ArrowLeft, Loader2, ClipboardList } from 'lucide-react';
 
 interface AnalysisHeaderProps {
-  onReset: () => void;
   onDownloadPdf: () => void;
   onShowParts: () => void;
   isGeneratingPdf: boolean;
 }
 
 const AnalysisHeader: React.FC<AnalysisHeaderProps> = ({
-  onReset,
   onDownloadPdf,
   onShowParts,
   isGeneratingPdf
 }) => {
   return (
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 no-print">
-      <button 
-        onClick={onReset}
-        className="group flex items-center text-surface-500 hover:text-surface-900 transition-colors px-3 py-2 rounded-lg hover:bg-surface-100/50"
-      >
-        <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
-        <span className="font-medium text-sm">Back to Dashboard</span>
-      </button>
+    <div className="flex flex-col md:flex-row justify-end items-start md:items-center mb-6 gap-4 no-print">
 
       <div className="flex items-center gap-2 w-full md:w-auto">
         <button 
