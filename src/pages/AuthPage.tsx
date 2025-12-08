@@ -24,9 +24,14 @@ const AuthPage: React.FC = () => {
         {/* Cubic Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a_1px,transparent_1px),linear-gradient(to_bottom,#27272a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
         
-        {/* Animated Scanner Effect */}
+        {/* Animated Scanner Effect & Watermark */}
          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl animate-pulse"></div>
          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-3xl"></div>
+         
+         {/* Giant Watermark Logo */}
+         <div className="absolute -bottom-24 -right-24 opacity-[0.03] transform -rotate-12 pointer-events-none select-none">
+            <img src="/logo.png" alt="" className="w-[600px] h-[600px] object-contain grayscale" />
+         </div>
 
         <div className="relative z-10">
            <div className="flex items-center gap-3 font-bold text-2xl tracking-tight mb-12">
@@ -61,10 +66,25 @@ const AuthPage: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      <div className="flex items-center justify-center p-6 sm:p-12 bg-surface-50 min-h-screen lg:min-h-0 relative overflow-hidden">
+        {/* Mobile Background Elements */}
+        <div className="absolute inset-0 z-0">
+           {/* Dot Pattern */}
+           <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-70"></div>
+           
+           {/* Floating Blobs */}
+           <div className="absolute top-0 -left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+           <div className="absolute top-0 -right-20 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+           <div className="absolute -bottom-32 left-20 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+           
+           {/* Form Side Watermark */}
+           <div className="absolute -bottom-12 -right-12 opacity-[0.05] transform rotate-12 pointer-events-none select-none animate-blob animation-delay-5000">
+              <img src="/logo.png" alt="" className="w-64 h-64 object-contain grayscale" />
+           </div>
+        </div>
 
-      {/* Form Side - Clean/Minimal */}
-      <div className="flex items-center justify-center p-6 sm:p-12 bg-surface-50 min-h-screen lg:min-h-0">
-        <div className="w-full max-w-md space-y-8">
+        <div className="w-full max-w-md space-y-8 relative z-10">
           <div className="text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 mb-6 border border-zinc-200">
                <ShieldCheck className="w-3 h-3 text-zinc-500" />
