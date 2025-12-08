@@ -9,6 +9,8 @@ import { usePdfGenerator } from '../hooks/usePdfGenerator';
 import { Car, Calendar, Hash, DollarSign } from 'lucide-react';
 import { formatCurrency } from '../../../utils/currencyUtils';
 
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
+
 interface AnalysisDashboardProps {
   result: AssessmentResult;
   imageUrl: string;
@@ -20,13 +22,14 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
   const visualizerRef = useRef<HTMLDivElement>(null);
   const { isGeneratingPdf, generatePdf } = usePdfGenerator();
   const [showPartsModal, setShowPartsModal] = useState(false);
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
   
   const handleDownloadPDF = () => {
     generatePdf(result, currency, visualizerRef.current);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-500">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 animate-in fade-in duration-500">
       <AnalysisHeader 
         onReset={onReset} 
         onDownloadPdf={handleDownloadPDF}
@@ -42,14 +45,14 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
       />
 
       {/* Snapshot Header Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
         <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
            <div className="p-2 bg-brand-50 rounded-lg text-brand-600">
              <Hash className="w-5 h-5" />
            </div>
            <div>
              <p className="text-xs text-surface-500 font-medium uppercase">Report ID</p>
-             <p className="font-mono font-bold text-surface-900 text-sm truncate" title={result.id}>{result.id}</p>
+             <p className="font-mono font-bold text-surface-900 text-xs sm:text-sm break-all">{result.id}</p>
            </div>
         </div>
         <div className="bg-white p-4 rounded-xl border border-surface-200 shadow-sm flex items-center gap-3">
@@ -82,13 +85,13 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-start">
         
         {/* Left Column: Visuals */}
         <div className="lg:col-span-7 space-y-8">
            <AnalysisVisuals imageUrl={imageUrl} result={result} visualizerRef={visualizerRef} />
            <div className="hidden lg:block">
-             <AnalysisCharts result={result} currency={currency} />
+             {isDesktop && <AnalysisCharts result={result} currency={currency} />}
            </div>
         </div>
 
@@ -96,7 +99,7 @@ const AnalysisDashboard: React.FC<AnalysisDashboardProps> = ({ result, imageUrl,
         <div className="lg:col-span-5 space-y-6 sticky top-8">
           <AnalysisCostOverview result={result} currency={currency} />
           <div className="lg:hidden">
-             <AnalysisCharts result={result} currency={currency} />
+             {!isDesktop && <AnalysisCharts result={result} currency={currency} />}
           </div>
         </div>
       </div>

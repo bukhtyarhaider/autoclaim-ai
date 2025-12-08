@@ -31,7 +31,7 @@ const AnalysisCostOverview: React.FC<AnalysisCostOverviewProps> = ({ result, cur
         <h3 className="font-bold text-surface-900 text-lg">Cost Estimate Breakdown</h3>
         <div className="text-right">
            <p className="text-xs text-surface-500 uppercase tracking-widest font-semibold mb-1">Grand Total</p>
-           <p className="text-2xl font-bold text-brand-600 leading-none">{formatCurrency(result.totalEstimatedCost)}</p>
+           <p className="text-xl sm:text-2xl font-bold text-brand-600 leading-none">{formatCurrency(result.totalEstimatedCost)}</p>
         </div>
       </div>
 
@@ -48,20 +48,20 @@ const AnalysisCostOverview: React.FC<AnalysisCostOverviewProps> = ({ result, cur
         {result.damages.map((damage, index) => (
           <div key={damage.id} className="group border border-surface-200 rounded-xl p-4 hover:border-brand-200 hover:shadow-sm transition-all bg-white">
             {/* Item Header */}
-            <div className="flex justify-between items-start mb-3">
-               <div className="flex items-center gap-3">
-                  <span className="flex items-center justify-center w-6 h-6 rounded-full bg-surface-100 text-surface-500 text-xs font-bold font-mono">
-                    {index + 1}
-                  </span>
-                  <div>
-                    <h4 className="font-semibold text-surface-900 text-sm">{damage.type}</h4>
-                    <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${getSeverityColor(damage.severity)}`}>
-                      {damage.severity} Severity
-                    </span>
-                  </div>
-               </div>
-               <span className="font-bold text-surface-900">{formatCurrency(damage.estimatedCost)}</span>
-            </div>
+             <div className="flex justify-between items-start mb-3 gap-2">
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                   <span className="flex items-center justify-center w-6 h-6 rounded-full bg-surface-100 text-surface-500 text-xs font-bold font-mono flex-shrink-0">
+                     {index + 1}
+                   </span>
+                   <div className="min-w-0 flex-1">
+                     <h4 className="font-semibold text-surface-900 text-sm truncate pr-2">{damage.type}</h4>
+                     <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full border ${getSeverityColor(damage.severity)} inline-block`}>
+                       {damage.severity}
+                     </span>
+                   </div>
+                </div>
+                <span className="font-bold text-surface-900 whitespace-nowrap text-sm">{formatCurrency(damage.estimatedCost)}</span>
+             </div>
 
             {/* Description */}
             <p className="text-xs text-surface-500 ml-9 mb-3 leading-relaxed">{damage.description}</p>

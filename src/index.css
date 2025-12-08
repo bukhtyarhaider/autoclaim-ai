@@ -84,9 +84,15 @@ body {
 
 @theme {
   --animate-scan: scan 2s linear infinite;
+  --animate-shimmer: shimmer 3s infinite linear;
   
   @keyframes scan {
     0% { transform: translateY(-100%); }
     100% { transform: translateY(200%); }
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 }
