@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ShieldCheck, Cpu, ScanLine } from 'lucide-react';
 import { authService } from '../services/storageService';
 import { useAuth } from '../context/AuthContext';
@@ -44,11 +44,11 @@ const AuthPage: React.FC = () => {
            <div className="relative">
              <div className="absolute -left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-white/20 to-transparent"></div>
              <h1 className="text-5xl font-bold leading-tight mb-6 tracking-tight">
-               Precision Damage <br/>
-               <span className="text-zinc-500">Assessment AI</span>
+               AI-Powered Damage <br/>
+               <span className="text-zinc-400">Assessment</span>
              </h1>
              <p className="text-zinc-400 text-lg max-w-md font-light leading-relaxed">
-               Enterprise-grade visual analysis for fleet management and claim processing.
+               Leverage AI for precise visual damage assessment and real-time cost estimations, optimizing repair processes and claims.
              </p>
            </div>
         </div>
@@ -79,7 +79,7 @@ const AuthPage: React.FC = () => {
            <div className="absolute -bottom-32 left-20 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
            
            {/* Form Side Watermark */}
-           <div className="absolute -bottom-12 -right-12 opacity-[0.05] transform rotate-12 pointer-events-none select-none animate-blob animation-delay-5000">
+           <div className=" md:hidden absolute -bottom-12 -right-12 opacity-[0.05] transform rotate-12 pointer-events-none select-none animate-blob animation-delay-5000">
               <img src="/logo.png" alt="" className="w-64 h-64 object-contain grayscale" />
            </div>
         </div>
@@ -152,12 +152,11 @@ const AuthPage: React.FC = () => {
                 </svg>
                 <span className="relative z-10">Sign in with Google</span>
               </button>
-              
               <div className="mt-6 text-center">
-                <p className="text-xs text-zinc-400">
-                  By continuing, you agree to the <a href="#" className="underline hover:text-zinc-600">Terms of Service</a> & <a href="#" className="underline hover:text-zinc-600">Privacy Policy</a>.
-                </p>
-              </div>
+                 <p className="text-xs text-zinc-400">
+                   By continuing, you agree to the <Link to="/terms" className="underline hover:text-zinc-600">Terms of Service</Link> & <Link to="/privacy" className="underline hover:text-zinc-600">Privacy Policy</Link>.
+                 </p>
+               </div>
             </div>
 
         </div>

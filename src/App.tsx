@@ -10,6 +10,8 @@ import ReportPage from './pages/ReportPage';
 import AssessmentsPage from './pages/AssessmentsPage';
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
 import { AuthProvider } from './context/AuthContext';
 import { UIProvider } from './context/UIContext';
 
@@ -18,6 +20,8 @@ function App() {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
 
       {/* Protected App Routes */}
       <Route element={<ProtectedRoute />}>
